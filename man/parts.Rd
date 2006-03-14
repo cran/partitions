@@ -18,7 +18,7 @@
 parts(n)
 diffparts(n)
 restrictedparts(n, m, include.zero=TRUE, decreasing=TRUE)
-blockparts(n=NULL,y,include.fewer=FALSE)
+blockparts(f, n=NULL, include.fewer=FALSE)
 }
 \arguments{
   \item{n}{Integer to be partitioned.  In function \code{blockparts()},
@@ -39,7 +39,7 @@ blockparts(n=NULL,y,include.fewer=FALSE)
     lexicographical order, as appearing in Hindenburg's
     algorithm.   Note that setting to \code{decreasing} to \code{FALSE}
     has the effect of making \code{conjugate()} return garbage}
-  \item{y}{In function \code{blockparts()}, a vector of strictly
+  \item{f}{In function \code{blockparts()}, a vector of strictly
     positive integers that gives the maximal number of blocks; see
     details} 
 }
@@ -60,11 +60,14 @@ blockparts(n=NULL,y,include.fewer=FALSE)
   \eqn{\sum_{i=1}^pa_i=n}{sum(a_i)=n} subect to \eqn{0<a_i\leq
     y_i}{0<a_i<y_i} for all \eqn{i} are given in lexicographical order.
   If argument \code{y} includes zero elements, these are treated
-  consistently (ie a position with zero capacity).  If \eqn{n=0}, then
+  consistently (ie a position with zero capacity).
+
+  If \code{n} takes its default value of \code{NULL}, then
   \eqn{\sum_{i=1}^pa_i=n}{sum(a_i)=n} is replaced by
   \eqn{\sum_{i=1}^pa_i\leq n}{sum(a_i)<=n}.   Note that these solutions
   are not necessarily in standard form, so functions \code{durfee()} and
   \code{conjugate()} may fail.
+
 }
 \author{Robin K. S. Hankin}
 \references{
@@ -77,5 +80,10 @@ diffparts(10)
 restrictedparts(9,4)
 restrictedparts(9,4,FALSE)
 restrictedparts(9,4,decreasing=TRUE)
+
+blockparts(1:4)
+blockparts(1:4,3)
+blockparts(1:4,3,include.fewer=TRUE)
+
 }
 \keyword{math}

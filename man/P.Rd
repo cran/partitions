@@ -15,7 +15,7 @@
 P(n, give = FALSE)
 Q(n, give = FALSE)
 R(m, n, include.zero = FALSE)
-S(n = NULL, y, include.fewer = FALSE)
+S(f, n = NULL, include.fewer = FALSE)
 }
 \arguments{
   \item{n}{Integer whose partition number is desired.  In function
@@ -36,18 +36,25 @@ S(n = NULL, y, include.fewer = FALSE)
     with default \code{FALSE} meaning to return partitions into
     \emph{exactly} \code{n} and \code{TRUE} meaning to return partitions
     into \emph{at most} \code{n}}
-  \item{y}{In function \code{S()}, the stack vector}
+  \item{f}{In function \code{S()}, the stack vector}
 }
 \details{
   Functions \code{P()} and \code{Q()} use Euler's
   recursion formula.  Function \code{R()} enumerates the partitions 
   using Hindenburg's method (see Andrews) and counts them until the
   recursion bottoms out.
+
+  Function \code{S()} finds the coefficient of~\eqn{x^n} in the
+  generating function \eqn{\prod_{i=1}^L\sum_{j=0}^{f_i}
+    x^j}{prod_{i=1, ..., L}(1+x+x^2+...+x^(f[i]))}, where \eqn{L} is the
+  length of \code{f}, using the \pkg{polynom} package.
+  
+  All these functions return a double.
 }
 \references{G. E. Andrews. \dQuote{The Theory of Partitions},
   Cambridge University Press, 1998.
   }
-\author{Robin K. S. Hankin}
+\author{Robin K. S. Hankin; S() is due to an anonymous JSS referee}
 \note{
   Functions \code{P()} and \code{Q()} use \code{unsigned long long}
   integers, a type which is system-dependent.  For me, \code{P()} works
@@ -61,7 +68,7 @@ Q(10,give=TRUE)
 R(10,20,include.zero=FALSE)
 R(10,20,include.zero=TRUE)
 
-S(5,1:4)
+S(1:4,5)
 
 }
 \keyword{math}

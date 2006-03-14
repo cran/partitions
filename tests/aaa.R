@@ -104,4 +104,6 @@ stopifnot(identical(conjugate(a),as.integer(c(7,6,5,5,3,2,2))))
 
 
 # Now verify that S() is independent of the order of y:
- S(5,c(1:4,4:1)) == S(5,rep(1:4,each=2))
+jj <- S(rep(1:4,each=2),5)
+stopifnot(jj == 474)
+stopifnot(jj == S(rep(1:4,each=2),5))

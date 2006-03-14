@@ -47,32 +47,33 @@ function(n){
   }
 }
 
-"blockparts" <- function(n=NULL,y,include.fewer=FALSE){
-  s <- sum(y)
+"blockparts" <- function(f,n=NULL,include.fewer=FALSE){
+  s <- sum(f)
   if(is.null(n)){
-    return(Recall(s,c(s,y))[-1,])
+    return(Recall(c(s,f),s)[-1,])
   }
+  if(s<n){stop("too many blocks: n<sum(f)")}
   if(include.fewer){
-    return(Recall(n,c(s,y))[-1,])
+    return(Recall(c(s,f),n)[-1,])
   }
-  ny <- names(y)
-  y <- as.vector(y)
-  ynz <- y[y>0]
-  nb <- S(n,ynz)
-  lynz <- length(ynz)
-  ly <- length(y)
+  nf <- names(f)
+  f <- as.vector(f)
+  fnz <- f[f>0]
+  nb <- S(fnz,n)
+  lfnz <- length(fnz)
+  lf <- length(f)
   out <- .C("allblockparts",
-           ans=integer(lynz*nb),
-           as.integer(ynz),
+           ans=integer(lfnz*nb),
+           as.integer(fnz),
            as.integer(nb),
-           as.integer(lynz),
+           as.integer(lfnz),
            as.integer(n)
            )$ans
-  dim(out) <- c(lynz,nb)
-  if(any(y<1)){
-    out <- replace(matrix(0,ly,ncol(out)),y>0,out)
+  dim(out) <- c(lfnz,nb)
+  if(any(f<1)){
+    out <- replace(matrix(0,lf,ncol(out)),f>0,out)
   }
-  rownames(out) <- ny
+  rownames(out) <- nf
   colnames(out) <- rep(" ",nb)
   return(out)
 }
@@ -123,25 +124,21 @@ function(n, give=FALSE){
   }
 }
 
-"S" <- function(n=NULL,y,include.fewer=FALSE){
-  y <- y[y>0]
-  if(is.null(n)){
-    return(prod(1+y))
+"S" <- function(f,n=NULL,include.fewer=FALSE){
+  if(length(n)>1){
+    stop("In function S(), n [the second argument] must be an integer (or NULL).  Check for the first and second arguments being transposed")
   }
-  if(include.fewer){
-    return(Recall(n,c(n,y)))
-  }
-  jj <- .C("numbblockparts_R",
-           as.integer(y),
-           as.integer(y),
-           as.integer(n),
-           as.integer(length(y)),
-           ans=as.integer(0),
-           PACKAGE = "partitions"
-           )
-    return(jj$ans)
+    p <- polynomial(1)
+    for(i in f){
+      p <- p * polynomial(rep.int(1, i + 1))
+      p <- polynomial(p[1:min(length(p),n+1)])
+    }
+    if(include.fewer){
+      return(sum(p[1:(n+1)]))
+    } else{
+      return(p[n+1])
+    }
 }
-
 
 "conjugate" <- function(x){
   x <- as.matrix(x)
@@ -167,4 +164,31 @@ function(n, give=FALSE){
      as.integer(ncol(x)),
      ans=integer(ncol(x)),
      PACKAGE="partitions")$ans
+}
+
+if(FALSE){
+"U" <- function(y,naive=FALSE){
+  if(naive){
+    return(
+           factorial(sum(y))/prod(factorial(y))
+           )
+  } else {
+    stop("not implemented")
+  }
+}
+
+"perms" <- function(y){
+  n <- length(y)
+  x <- rep(1:n,y)
+  nn <- U(y)
+  
+  out <- .C("allperms",
+           as.integer(n),
+           as.integer(n*nn),
+           ans = integer(n*nn),
+           PACKAGE="partitions"
+           )$ans
+  dim(out) <- c(n,nn)
+  return(out)
+}
 }

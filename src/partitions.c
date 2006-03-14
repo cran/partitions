@@ -307,44 +307,17 @@ int nextblockpart(int *x, const int *y,  const int len)
 	return 0;
 }
 
-int numbblockparts(int *x, const int *y, int blocks, int len){ 
-	int count=1;
-	int i,btemp;
-
-	btemp=blocks;
-	/* First fill "x" with blocks, starting from left to right */
-	for(i=0 ; i<len ; i++){
-	  if(btemp < y[i]){  /* empty all "a" blocks into x[j] */
-	    x[i] = btemp;   
-	    btemp = 0;
-	  } else {
-	    x[i] = y[i];
-	    btemp -= y[i];
-	  }
-	}
-
-	/* Then repeatedly call nextblockpart() until it returns FALSE: */
-	while(!nextblockpart(x, y, len))
-	{
-		count++;
-	} 
-	return count;
-}
-
-void numbblockparts_R(int *x, int *y, int *n, int *len, int *ans){
-        *ans = numbblockparts(x, y, *n, *len);
-}
 
 void allblockparts(int *x, int *y, int *nb, int *len, int *total){
 /* arguments: "x" is the initial block arrangements, "y" is the stack,
-"nb" is the number of block arrangements (from numbblockparts()),
-"len" is the length of vectors "x" and "y", and "total" is the number
-of blocks to play with"
+   "nb" is the number of block arrangements (from numbblockparts()),
+   "len" is the length of vectors "x" and "y", and "total" is the number
+   of blocks to play with"
 */
-         int a,i,j;
+	int a,i,j;
 	/* First fill array "x" from x[0] to x[n-1]: */
 
-	 a = *total;
+	a = *total;
 	for(i=0 ; i< (*len) ; i++){
 	  if(a < y[i]){  /* empty all "a" blocks into x[j] */
 	    x[i] = a;   
@@ -362,3 +335,38 @@ of blocks to play with"
 	  nextblockpart(x+i, y, *len); 
 	}
 }
+
+/*
+int nextperm(int *x, const int len)
+{
+	int i,j,m;
+	for(i=len ; x[i]<x[i-1] ; i--){ }
+	if(i==0){
+		return 1;
+	}
+
+	for(j=len ; j>i & x[i]<x[j] ; j--){ }
+	m    = x[j];
+	x[j] = x[i];
+	x[i] = m;
+
+	for(j=len; j>i ; j--){
+		m        = x[len-j];
+		x[len-j] = x[j];
+		x[j]     = m;
+	}
+	return 0;
+
+}
+
+void allperms(int *x, int *len, int *nb){
+	int i,j;
+			
+	for(i= *len ; i < (*len) * (*nb) ; i += *len){
+		for(j=0 ; j < *len ; j++){
+			x[i+j] = x[i+j - *len];
+		}
+		nextperm(x+i, *len); 
+	}
+}
+*/

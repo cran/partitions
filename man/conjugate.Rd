@@ -4,7 +4,7 @@
 \alias{Durfee}
 \title{Conjugate partitions and Durfee squares}
 \description{
-Given a partition, provide its conjugate
+Given a partition, provide its conjugate or Durfee square
 }
 \usage{
 conjugate(x)

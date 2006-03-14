@@ -35,8 +35,11 @@ Returns either a partition in standard form, or a matrix whose
 columns are partitions in standard form.
 }
 \author{Robin K. S. Hankin}
-\note{If argument \code{x} is not nonincreasing, all bets are off.  These
-  functions will not work; they will silently return garbage.  Caveat emptor!
+\note{
+If argument \code{x} is not nonincreasing, all bets are off: these
+functions will not work and will silently return garbage.  Caveat
+emptor!  (output from \code{blockparts()} is not necessarily
+non-increasing)
 }
 \examples{
 parts(5)

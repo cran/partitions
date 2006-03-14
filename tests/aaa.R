@@ -101,3 +101,7 @@ stopifnot(identical(conjugate(a),as.integer(c(7,6,5,5,3,2,2))))
  g <- function(n){all(apply(conjugate(diffparts(n)),2,f))}
                   
  stopifnot(c(g(10),g(11),g(20)))
+
+
+# Now verify that S() is independent of the order of y:
+ S(5,c(1:4,4:1)) == S(5,rep(1:4,each=2))

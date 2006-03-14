@@ -10,21 +10,23 @@ Routines to enumerate all partitions of an integer; includes restricted
 and unequal partitions.
 }
 \details{
-This tiny package comprises six functions: \code{P()}, \code{Q()}, and
-\code{R()} give the number of partitions, unequal partitions, and
-restricted partitions of an integer.
 
-Functions \code{parts()}, \code{diffparts()}, and
-\code{restrictedparts()} enumerate these partitions.
+This package comprises eight functions: \code{P()}, \code{Q()},
+\code{R()}, and \code{S()} give the number of partitions, unequal
+partitions, restricted partitions, and block partitions of an integer.
+
+Functions \code{parts()}, \code{diffparts()}, \code{restrictedparts()},
+and \code{blockparts()} enumerate these partitions.
 
 Function \code{conjugate()} gives the conjugate of a partition and
-function \code{durfee()} gives the size of the Durfee square.
+function \code{durfee()} gives the size of the Durfee square.  
 
 \strong{NB} the emphasis in this package is terse, efficient C code.
 This means that there is a minimum of argument checking.  For example,
 function \code{conjugate()} assumes that the partition is in standard
 form (ie nonincreasing); supplying a vector in nonstandard form will
-result in garbage being returned silently.
+result in garbage being returned silently.  Note that a block partition
+is not necessarily in standard form.
 
 }
 \author{Robin K. S. Hankin}

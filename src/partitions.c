@@ -269,3 +269,96 @@ void durfee(int *x, int *nrow, int *ncol, int *y)
    	       y[i] = durfee_vector(x +  i*(*nrow));
 	}
 }
+
+int nextblockpart(int *x, const int *y,  const int len)
+{ /* "x" is the vector of numbers of blocks, "y" is
+    the vector of maximum number of blocks,  "len"
+    is the length of these vectors */
+        int a,i,j;
+
+	for(i=0 , a=x[0] ; (!x[i++]) || (x[i] ==y[i]) ; a += x[i]){};
+	/* i: position of first stack into which a block can be moved */ 
+	/* a: number of blocks in stacks up to and including the first movable one */
+
+	if(i >= len){  /* check for all elements being at the right (ie x is the
+			last partition; the recursion has ended so return 1) */
+		return 1;
+	}
+
+	a--; /* a: number of blocks below and to the left of the first movable one */
+
+	/* Now move the block one stack rightward, leaving "i" unchanged: */
+	x[i--]++;
+	x[i++]--;
+
+
+	/* Now reallocate the "a" blocks by filling up the stack one by one from x[0] to x[i]:*/
+	for(j=0 ; j<i ; j++){
+	  if(a < y[j]){  /* empty all "a" blocks into x[j] */
+	    x[j] = a;   
+	    a = 0;
+	  } else {
+	    x[j]=y[j];
+	    a -= y[j];
+	  }
+	}
+	
+	/* Getting here means that the function executed correctly: return 0 */
+	return 0;
+}
+
+int numbblockparts(int *x, const int *y, int blocks, int len){ 
+	int count=1;
+	int i,btemp;
+
+	btemp=blocks;
+	/* First fill "x" with blocks, starting from left to right */
+	for(i=0 ; i<len ; i++){
+	  if(btemp < y[i]){  /* empty all "a" blocks into x[j] */
+	    x[i] = btemp;   
+	    btemp = 0;
+	  } else {
+	    x[i] = y[i];
+	    btemp -= y[i];
+	  }
+	}
+
+	/* Then repeatedly call nextblockpart() until it returns FALSE: */
+	while(!nextblockpart(x, y, len))
+	{
+		count++;
+	} 
+	return count;
+}
+
+void numbblockparts_R(int *x, int *y, int *n, int *len, int *ans){
+        *ans = numbblockparts(x, y, *n, *len);
+}
+
+void allblockparts(int *x, int *y, int *nb, int *len, int *total){
+/* arguments: "x" is the initial block arrangements, "y" is the stack,
+"nb" is the number of block arrangements (from numbblockparts()),
+"len" is the length of vectors "x" and "y", and "total" is the number
+of blocks to play with"
+*/
+         int a,i,j;
+	/* First fill array "x" from x[0] to x[n-1]: */
+
+	 a = *total;
+	for(i=0 ; i< (*len) ; i++){
+	  if(a < y[i]){  /* empty all "a" blocks into x[j] */
+	    x[i] = a;   
+	    a = 0;
+	  } else {
+	    x[i]=y[i];
+	    a -= y[i];
+	  }
+	}
+
+	for(i= *len ; i < (*len) * (*nb) ; i += *len){
+	  for(j=0 ; j < *len ; j++){
+	    x[i+j] = x[i+j - *len];
+	  }
+	  nextblockpart(x+i, y, *len); 
+	}
+}

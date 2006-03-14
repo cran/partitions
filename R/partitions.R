@@ -47,6 +47,37 @@ function(n){
   }
 }
 
+"blockparts" <- function(n=NULL,y,include.fewer=FALSE){
+  s <- sum(y)
+  if(is.null(n)){
+    return(Recall(s,c(s,y))[-1,])
+  }
+  if(include.fewer){
+    return(Recall(n,c(s,y))[-1,])
+  }
+  ny <- names(y)
+  y <- as.vector(y)
+  ynz <- y[y>0]
+  nb <- S(n,ynz)
+  lynz <- length(ynz)
+  ly <- length(y)
+  out <- .C("allblockparts",
+           ans=integer(lynz*nb),
+           as.integer(ynz),
+           as.integer(nb),
+           as.integer(lynz),
+           as.integer(n)
+           )$ans
+  dim(out) <- c(lynz,nb)
+  if(any(y<1)){
+    out <- replace(matrix(0,ly,ncol(out)),y>0,out)
+  }
+  rownames(out) <- ny
+  colnames(out) <- rep(" ",nb)
+  return(out)
+}
+    
+
 "P" <-
 function(n, give=FALSE){
   n <- n+1
@@ -90,6 +121,25 @@ function(n, give=FALSE){
   } else {
     return(jj$ans[n])
   }
+}
+
+"S" <- function(n=NULL,y,include.fewer=FALSE){
+  y <- y[y>0]
+  if(is.null(n)){
+    return(prod(1+y))
+  }
+  if(include.fewer){
+    return(Recall(n,c(n,y)))
+  }
+  jj <- .C("numbblockparts_R",
+           as.integer(y),
+           as.integer(y),
+           as.integer(n),
+           as.integer(length(y)),
+           ans=as.integer(0),
+           PACKAGE = "partitions"
+           )
+    return(jj$ans)
 }
 
 

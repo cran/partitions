@@ -1,0 +1,271 @@
+#include <stdio.h>
+
+void nextpart(int *x)
+{
+        int i, yy, n, a, b;
+
+        a=0;
+	while(x[++a] >0){} 
+	a--; /* a position of last nonzero */
+
+	b=a;
+	while(x[b--] == 1){ }
+	b++; /* b: pos of last elt >1 */
+	
+        if(x[a]>1){ /* if last nonzero number >1 */
+                x[a]-- ; /* subtract one from it */
+                x[a+1] = 1; /* and put a 1 next to it */
+                return ;
+        } 
+        n = a-b;   /* n: number of 1s*/
+        x[b]--;    /* decrement final nonzero digit (perforce >1) */
+        yy = x[b]; /* and add 1 to the next place */
+
+        n++;           /* n is now number of 1s plus 1 (thus "n" is to
+			* to be distributed as evenly as possible
+			* after x[a]) */ 
+	i = b;        
+	while(n >= yy){        /* distribute n among elements x[a] onwards */
+		x[++i] = yy;   /* by repeatedly adding yy until no longer */
+		n -= yy;       /* possible */ 
+	}
+	x[++i] = n;            /* add the remainder to x */
+	while(i < a){          /* set remaining elements to 0 */
+		x[++i] = 0;
+	}
+	
+	return;
+}
+
+void nextdiffpart(int *x, int ntri)
+{
+        int yy, a, aa, b, d, n;
+	
+	a=ntri;
+	while(x[--a] ==0){ }
+	aa=a; /* position of last nonzero */
+
+	b=0;
+	d=1;
+	n=0;
+	while ( (x[a]-d) < 2) {
+		n += x[a--];  /* n is running total */
+		d++;
+	} 
+        yy= --x[a++];  
+	n++; /* add one to n to compensate for decrementing x[a+1] */
+	while(n >= yy){   /*now add a decreasing sequence to x[a],x[a+1],...*/
+		x[a++] = --yy;  
+		n -= yy;       
+	};
+	x[a] = n;            /* add the remainder to x */
+	while(a < aa){          /* set remaining elements to 0 */
+		x[++a] = 0;
+	}
+	return;
+}
+
+int nextrestrictedpart(int *x, int *len) /* algorithm on p232 of Andrews */
+{
+	int a, l, j, m, r;
+	a = *len ;
+	l=a-1;
+	m = x[l];
+	while(   (m-x[--a]) < 2 ){ }  /* thus a is Andrews's Lambda_j.
+					 The diagnostic for existence
+					 of a next partition is a >= 0;
+					 otherwise recursion has
+					 "bottomed out" and we return
+					 1*/
+	if(a<0){return 1;}
+	x[a]++;
+	j=x[a];
+
+	r= -1;  /* r is the residual */
+	do {
+		r += x[a] - j;
+		x[a] = j;
+	} while (++a < *len-1);
+	x[*len-1] += r;
+	return 0;
+}
+
+void numbparts(int *n, double *p){/* p(1)...p(n) calculated using
+				     Euler's recursive formula on p825
+				     of Abramowitz & Stegun */
+	int i, s, f, r;
+	unsigned long long int *ip;
+	unsigned long long int pp[*n];
+
+	pp[0] = pp[1] = 1;
+	for(i=2 ; i< *n ; i++){
+		/* first do r = m(3m+1)/2  */
+		s = 1;  /* "s" for "sign" */
+		f = 5;  /* f is first difference  */
+		r = 2;  /* initial value (viz m(3m+1)/2 for m=1) */
+
+		ip = pp+i;
+		*ip = 0;
+		while(i-r >= 0){
+			*ip += s*pp[i-r];
+			r += f;
+			f += 3;  /* 3 is the second difference */
+			/* change sign of s */
+			s *= -1;
+		}
+		/* now do r = m(3m-1)/2 */
+		s = 1;
+		f = 4; /*first difference now 4 */
+		r = 1; /* initial value (viz m(3m-1)/2 for m=1) */
+		while(i-r >= 0){
+			*ip += s*pp[i-r];
+			r += f;
+			f += 3;
+			s *= -1;
+		}
+	}
+	for(i=0 ; i < *n ; i++){
+                p[i] = (double) pp[i];
+        }
+	
+}
+
+void numbdiffparts(int *n, double *q){/* q(1)...q(n) calculated using
+					 the recursion on p826 of
+					 Abramowitz and Stegun*/
+	int i,s,f,r;
+	unsigned long long int qq[*n];
+	qq[0] = qq[1] = 1;
+	for(i=2 ; i < *n ; i++){
+		qq[i] = 0;
+		/* first do r = m(3m+1)/2  */
+		s = 1;  /* "s" for "sign" */
+		f = 5;  /* f is first difference  */
+		r = 2;  /* initial value (viz m(3m+1)/2 for m=1) */
+		while(i >= r){
+			qq[i] += s*qq[i-r] ;
+			/* change q[i] by 1 if i=m(3m+1): */
+			if(i==r*2){
+				qq[i] -= s;
+			}
+			r += f;
+			f += 3;  /* 3 is the second difference */
+			s *= -1; /* change sign of s */
+		}
+		/* now do r = m(3m-1)/2 */
+		s = 1;
+		f = 4; /* first difference now 4 */
+		r = 1; /* initial value (viz m(3m-1)/2 for m=1) */
+		while(i >= r){
+			qq[i] += s*qq[i-r] ;
+			if(i==r*2){
+				qq[i] -= s;
+			}
+			r += f;
+			f += 3;
+			s *= -1;
+		}
+	}
+	for(i=0 ; i < *n ; i++){
+                q[i] = (double) qq[i];
+        }
+}
+
+int numbrestrictedparts(int *x, int m){ /* array x is  c(rep(1,m-1),n-m+1) */
+	int count=1;
+	while(nextrestrictedpart(x, &m)==0)
+	{
+		count++;
+	} 
+	return count;
+}
+
+void numbrestrictedparts_R(int *x, int *m, int *ans){
+	*ans = numbrestrictedparts(x, *m);
+}
+
+void allparts(int *n, int *len, int *x){
+	int i,j;
+	x[0] = *n;
+	for(i=1 /* sic */ ; i < *n ;  i++){ 
+		x[i] = 0 ;
+	}
+	
+	for(i= *n ; i < *len ; i += *n){
+		for(j=0 ; j < *n ; j++){
+			x[i+j] = x[i+j - *n];
+		}
+		nextpart(x+i);
+	}
+}
+
+void alldiffparts(int *n, int *len, int *ntri, int *x){
+	int i,j;
+	x[0] = *n;
+	
+	for(i= *ntri ; i < *len ; i += *ntri){
+		for(j=0 ; j < *ntri ; j++){
+			x[i+j] = x[i+j - *ntri];
+		}
+		nextdiffpart(x+i , *ntri);
+	}
+}
+
+void allrestrictedparts(int *m, int *n, int *len, int *inc, int *x){
+	int i,j;
+	if(*inc == 0){
+		for(i=0 ; i < (*m)-1 ; i++){ 
+			x[i] = 1 ;
+		}
+		x[*m-1] = *n - *m + 1;
+	} else {
+		for(i=0 ; i < (*m)-1 ; i++){ 
+			x[i] = 0 ;
+		}
+		x[*m-1] = *n ;
+	}
+
+	for(i= *m ; i < *len ; i += *m){
+		for(j=0 ; j < *m ; j++){
+			x[i+j] = x[i+j - *m];
+		}
+		nextrestrictedpart(x+i , m);
+	}
+}
+
+
+void conjugate_vector(int *x, int len, int *y)
+{
+	int i,j;
+	for(j=0 ; x[0]>0 ; j++)
+	{
+	  for(i=0; x[i]>0 && i<len ; i++)
+		{
+			x[i]--;
+			y[j]++;
+		} 
+	}
+}
+
+void conjugate(int *x, int *nrow, int *ncol, int *nmax, int *y)
+{
+	int i;
+	for(i=0 ; i< (*ncol) ; i++){
+		conjugate_vector(x+ (i*(*nrow)) , *nrow, y+i*(*nmax));
+	}
+}
+
+int durfee_vector(int *x)
+{
+      int i;
+      for(i=0 ; x[i]>i ; i++){}
+      return i;
+}
+
+void durfee(int *x, int *nrow, int *ncol, int *y)
+{
+	int i;
+	for(i=0 ; i< (*ncol) ; i++){
+   	       y[i] = durfee_vector(x +  i*(*nrow));
+	}
+}

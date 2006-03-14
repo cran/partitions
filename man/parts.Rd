@@ -3,6 +3,7 @@
 \alias{diffparts}
 \alias{restrictedparts}
 \alias{blockparts}
+\alias{allparts}
 \title{Enumerate the partitions of an integer}
 \description{
   Given an integer, return a matrix whose columns enumerate its
@@ -10,15 +11,17 @@
 
   Function \code{parts()} returns the unrestricted partions; function
   \code{diffparts()} returns the unequal partitions; function
-  \code{restrictedparts()} returns the restricted partitions and
+  \code{restrictedparts()} returns the restricted partitions;
   function \code{blockparts()} returns the partitions subject to
-  specified maxima.  
+  specified maxima; and function \code{allparts()} returns all
+  partitions, of an integer.
  }
 \usage{
 parts(n)
 diffparts(n)
 restrictedparts(n, m, include.zero=TRUE, decreasing=TRUE)
 blockparts(f, n=NULL, include.fewer=FALSE)
+allparts(n)
 }
 \arguments{
   \item{n}{Integer to be partitioned.  In function \code{blockparts()},
@@ -66,7 +69,13 @@ blockparts(f, n=NULL, include.fewer=FALSE)
   \eqn{\sum_{i=1}^pa_i=n}{sum(a_i)=n} is removed (the numbers may sum to
   anything).  Note that these solutions are not necessarily in standard
   form, so functions \code{durfee()} and \code{conjugate()} may fail.
-  }
+
+  Function \code{allparts()} returns all \eqn{2^n} ways of partitioning
+  an integer; thus \code{4+1+1} is distinct from \code{1+4+1} or
+  \code{1+1+4}.  This function is different from all the others in the
+  package in that it is written in \R; it is not clear that C
+  would be any faster
+}
 \author{Robin K. S. Hankin}
 \references{
 G. E. Andrews. \dQuote{The Theory of Partitions},
@@ -82,6 +91,8 @@ restrictedparts(9,4,decreasing=TRUE)
 blockparts(1:4)
 blockparts(1:4,3)
 blockparts(1:4,3,include.fewer=TRUE)
+
+allparts(3)
 
 }
 \keyword{math}

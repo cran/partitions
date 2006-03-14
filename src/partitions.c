@@ -29,7 +29,9 @@ void nextpart(int *x)
 		x[++i] = yy;   /* by repeatedly adding yy until no longer */
 		n -= yy;       /* possible */ 
 	}
-	x[++i] = n;            /* add the remainder to x */
+	if(n){
+		x[++i] = n;            /* add the remainder to x */
+	}
 	while(i < a){          /* set remaining elements to 0 */
 		x[++i] = 0;
 	}
@@ -67,17 +69,25 @@ void nextdiffpart(int *x, int ntri)
 
 int nextrestrictedpart(int *x, int *len) /* algorithm on p232 of Andrews */
 {
-	int a, l, j, m, r;
-	a = *len ;
-	l=a-1;
-	m = x[l];
-	while(   (m-x[--a]) < 2 ){ }  /* thus a is Andrews's Lambda_j.
-					 The diagnostic for existence
+	int a, j, m, r;
+
+	a = *len -1;
+
+/*	while(  (m-x[--a]) < 2 ){ } */
+
+	for(m=x[a] ; m-x[a]<2 ; ){
+		if(--a < 0){
+			return 1;
+		}
+	}
+	
+     	                               /* thus a is Andrews's Lambda_j.
+	                                 The diagnostic for existence
 					 of a next partition is a >= 0;
 					 otherwise recursion has
 					 "bottomed out" and we return
 					 1*/
-	if(a<0){return 1;}
+
 	x[a]++;
 	j=x[a];
 
@@ -239,7 +249,7 @@ void conjugate_vector(int *x, int len, int *y)
 	int i,j;
 	for(j=0 ; x[0]>0 ; j++)
 	{
-	  for(i=0; x[i]>0 && i<len ; i++)
+		for(i=0; (i<len) && (x[i]>0) ; i++)
 		{
 			x[i]--;
 			y[j]++;

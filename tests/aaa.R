@@ -107,3 +107,10 @@ stopifnot(identical(conjugate(a),as.integer(c(7,6,5,5,3,2,2))))
 jj <- S(rep(1:4,each=2),5)
 stopifnot(jj == 474)
 stopifnot(jj == S(rep(1:4,each=2),5))
+
+
+
+# Now some tests on allparts():
+jj <- allparts(7)
+stopifnot(all(apply(jj,2,sum)==7))
+

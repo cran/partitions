@@ -78,6 +78,16 @@ function(n){
   return(out)
 }
     
+"allparts" <-
+function(n){
+    pad <- function(i,n){c(i,integer(n-length(i)))}
+    f <- function(x){diff(c(as.integer(0),which(c(x,TRUE))))}
+    jj <- apply(as.matrix(expand.grid(rep(list(c(TRUE,FALSE)),n-1))),1, f)
+    out <-  do.call(cbind,lapply(jj, pad, n))
+    rownames(out) <- NULL
+    colnames(out) <- rep(" ",ncol(out))
+    return(out)
+}
 
 "P" <-
 function(n, give=FALSE){

@@ -63,12 +63,10 @@ blockparts(f, n=NULL, include.fewer=FALSE)
   consistently (ie a position with zero capacity).
 
   If \code{n} takes its default value of \code{NULL}, then
-  \eqn{\sum_{i=1}^pa_i=n}{sum(a_i)=n} is replaced by
-  \eqn{\sum_{i=1}^pa_i\leq n}{sum(a_i)<=n}.   Note that these solutions
-  are not necessarily in standard form, so functions \code{durfee()} and
-  \code{conjugate()} may fail.
-
-}
+  \eqn{\sum_{i=1}^pa_i=n}{sum(a_i)=n} is removed (the numbers may sum to
+  anything).  Note that these solutions are not necessarily in standard
+  form, so functions \code{durfee()} and \code{conjugate()} may fail.
+  }
 \author{Robin K. S. Hankin}
 \references{
 G. E. Andrews. \dQuote{The Theory of Partitions},

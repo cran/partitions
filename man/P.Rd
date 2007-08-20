@@ -51,10 +51,7 @@ S(f, n = NULL, include.fewer = FALSE)
   
   All these functions return a double.
 }
-\references{G. E. Andrews. \dQuote{The Theory of Partitions},
-  Cambridge University Press, 1998.
-  }
-\author{Robin K. S. Hankin; S() is due to an anonymous JSS referee}
+\author{Robin K. S. Hankin; \code{S()} is due to an anonymous JSS referee}
 \note{
   Functions \code{P()} and \code{Q()} use \code{unsigned long long}
   integers, a type which is system-dependent.  For me, \code{P()} works

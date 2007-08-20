@@ -3,7 +3,7 @@
 \alias{diffparts}
 \alias{restrictedparts}
 \alias{blockparts}
-\alias{allparts}
+\alias{compositions}
 \title{Enumerate the partitions of an integer}
 \description{
   Given an integer, return a matrix whose columns enumerate its
@@ -11,31 +11,32 @@
 
   Function \code{parts()} returns the unrestricted partions; function
   \code{diffparts()} returns the unequal partitions; function
-  \code{restrictedparts()} returns the restricted partitions;
-  function \code{blockparts()} returns the partitions subject to
-  specified maxima; and function \code{allparts()} returns all
-  partitions, of an integer.
- }
+  \code{restrictedparts()} returns the restricted partitions; function
+  \code{blockparts()} returns the partitions subject to specified
+  maxima; and function \code{compositions()} returns all compositions
+  of the argument.
+}
+
 \usage{
 parts(n)
 diffparts(n)
 restrictedparts(n, m, include.zero=TRUE, decreasing=TRUE)
 blockparts(f, n=NULL, include.fewer=FALSE)
-allparts(n)
+compositions(n, m=NULL, include.zero=TRUE)
 }
 \arguments{
   \item{n}{Integer to be partitioned.  In function \code{blockparts()},
     the default of \code{NULL} means to return all partitions of any size}
   \item{m}{In \code{restrictedparts()}, the order of the partition}
-  \item{include.zero}{In \code{restrictedparts()}, Boolean with
-    default \code{FALSE} meaning to include only partitions of \eqn{n}
-    into \emph{exactly} \eqn{m} parts; and \code{TRUE} meaning to
-    include partitions of \eqn{n} into \emph{at most} \eqn{m} parts
-    (because zero parts are included)}
+  \item{include.zero}{In functions \code{restrictedparts()} and
+    \code{compositions()}, Boolean with default \code{FALSE} meaning to
+    include only partitions of \eqn{n} into \emph{exactly} \eqn{m}
+    parts; and \code{TRUE} meaning to include partitions of \eqn{n} into
+    \emph{at most} \eqn{m} parts (because zero parts are included)}
   \item{include.fewer}{In function \code{blockparts()}, Boolean with
-    default \code{FALSE} meaning to return partitions into
+    default \code{FALSE} meaning to return vectors whose sum is
     \emph{exactly} \code{n} and \code{TRUE} meaning to return partitions
-    into \emph{at most} \code{n}}
+    whose sum is \emph{at most} \code{n}}
   \item{decreasing}{In \code{restrictedparts()}, Boolean with default
     \code{TRUE} meaning to return partitions whose parts are in
     decreasing order and \code{FALSE} meaning to return partitions in
@@ -49,7 +50,8 @@ allparts(n)
 \details{
   Function \code{parts()} uses the algorithm in Andrews.  Function
   \code{diffparts()} uses a very similar algorithm that I have not seen
-  elsewhere.
+  elsewhere.  These functions behave strangely if given an argument of
+  zero. 
 
   Function \code{restrictedparts()} uses the algorithm in
   Andrews, originally due to Hindenburg.  For partitions into at most
@@ -70,11 +72,11 @@ allparts(n)
   anything).  Note that these solutions are not necessarily in standard
   form, so functions \code{durfee()} and \code{conjugate()} may fail.
 
-  Function \code{allparts()} returns all \eqn{2^n} ways of partitioning
+  Function \code{compositions()} returns all \eqn{2^n} ways of partitioning
   an integer; thus \code{4+1+1} is distinct from \code{1+4+1} or
   \code{1+1+4}.  This function is different from all the others in the
   package in that it is written in \R; it is not clear that C
-  would be any faster
+  would be any faster.
 }
 \author{Robin K. S. Hankin}
 \references{
@@ -92,7 +94,7 @@ blockparts(1:4)
 blockparts(1:4,3)
 blockparts(1:4,3,include.fewer=TRUE)
 
-allparts(3)
+compositions(3)
 
 }
 \keyword{math}

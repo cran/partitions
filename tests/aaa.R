@@ -64,8 +64,8 @@ compare <- function(n){
     }
   jj <- parts(n)
 
-  a <- as.data.frame(t(jj))
-  b <- as.data.frame(t(conjugate(jj)))
+  a <- as.data.frame(as.matrix(t(jj)))
+  b <- as.data.frame(as.matrix(t(conjugate(jj))))
 
   a <- as.matrix(a[do.call(order,a),])
   b <- as.matrix(b[do.call(order,b),])
@@ -75,7 +75,7 @@ compare <- function(n){
 
   return(identical(a,b))
 }
-  
+
 stopifnot(all(compare(1:15)))
 
 
@@ -110,7 +110,14 @@ stopifnot(jj == S(rep(1:4,each=2),5))
 
 
 
-# Now some tests on allparts():
-jj <- allparts(7)
+# Now some tests on compositions():
+jj <- compositions(7)
 stopifnot(all(apply(jj,2,sum)==7))
 
+
+
+# some tests of setparts:
+f <- function(jj){all(apply(setparts(jj),2,table)==jj)}
+stopifnot(f(c(3,2)))
+stopifnot(f(c(3,1)))
+stopifnot(f(c(3,2,1)))

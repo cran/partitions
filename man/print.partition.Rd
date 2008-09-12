@@ -17,8 +17,9 @@ print.summary.partition(x, ...)
   \item{mat}{Boolean, with \code{TRUE} meaning to print like a matrix,
     and any other value meaning to print without column names (which
     usually results in more compact appearance)}
-  \item{h}{Boolean, with \code{TRUE} meaning to print as is,
-    and any other value meaning to print the transpose}
+  \item{h}{Boolean governing the orientation of the printed matrix, with
+    \code{TRUE} meaning to print with the rows being the partitions and 
+    any other value (the default) meaning to print the transpose}
   \item{\dots}{Further arguments provided for compatibility}
 }
 \author{Robin K. S. Hankin}

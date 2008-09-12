@@ -1,7 +1,7 @@
 Package: partitions
 Type: Package
 Title: Additive partitions of integers
-Version: 1.8-2
+Version: 1.9-3
 Date: 2008-09-12
 Author: Robin K. S. Hankin
 Depends: polynom
@@ -11,4 +11,4 @@ Description: Additive partitions of integers.  Enumerates the
   integer; the three corresponding partition functions are also
   given.  Set partitions are now included.
 License: GPL
-Packaged: Sun Sep 14 20:43:09 2008; rksh
+Packaged: Fri Feb 13 19:25:21 2009; rksh

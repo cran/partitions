@@ -1,11 +1,13 @@
 \name{as.matrix.partition}
 \alias{as.matrix.partition}
-\title{Coerces partitions to matrices}
+\alias{as.partition}
+\title{Coerce partitions to matrices and vice versa}
 \description{
-Coerces partitions objects to matrices
+Coercion to and from partitions
 }
 \usage{
 as.matrix.partition(x, ...)
+as.partition(x, ...)
 }
 \arguments{
   \item{x}{Object to be coerced}

@@ -9,7 +9,7 @@
   Given an integer, return a matrix whose columns enumerate its
   partitions.
 
-  Function \code{parts()} returns the unrestricted partions; function
+  Function \code{parts()} returns the unrestricted partitions; function
   \code{diffparts()} returns the unequal partitions; function
   \code{restrictedparts()} returns the restricted partitions; function
   \code{blockparts()} returns the partitions subject to specified
@@ -27,7 +27,8 @@ compositions(n, m=NULL, include.zero=TRUE)
 \arguments{
   \item{n}{Integer to be partitioned.  In function \code{blockparts()},
     the default of \code{NULL} means to return all partitions of any size}
-  \item{m}{In \code{restrictedparts()}, the order of the partition}
+  \item{m}{In functions \code{restrictedparts()} and
+    \code{compositions()}, the order of the partition}
   \item{include.zero}{In functions \code{restrictedparts()} and
     \code{compositions()}, Boolean with default \code{FALSE} meaning to
     include only partitions of \eqn{n} into \emph{exactly} \eqn{m}
@@ -48,40 +49,61 @@ compositions(n, m=NULL, include.zero=TRUE)
     details} 
 }
 \details{
-  Function \code{parts()} uses the algorithm in Andrews.  Function
-  \code{diffparts()} uses a very similar algorithm that I have not seen
-  elsewhere.  These functions behave strangely if given an argument of
-  zero. 
+  \itemize{
+    \item Function \code{parts()} uses the algorithm in Andrews.
+    Function \code{diffparts()} uses a very similar algorithm that I
+    have not seen elsewhere.  These functions behave strangely if given
+    an argument of zero.
+    
+    \item Function \code{restrictedparts()} uses the algorithm in
+    Andrews, originally due to Hindenburg.  For partitions into at most
+    \eqn{m} parts, the same Hindenburg's algorithm is used but with a
+    start vector of \code{c(rep(0,m-1),n)}.
 
-  Function \code{restrictedparts()} uses the algorithm in
-  Andrews, originally due to Hindenburg.  For partitions into at most
-  \eqn{m} parts, the same Hindenburg's algorithm is used but with a
-  start vector of \code{c(rep(0,m-1),n)}.
-
-  Function \code{blockparts()} enumerates the compositions of an integer
-  subject to a maximum criterion: given vector
-  \eqn{y=(y_1,\ldots,y_n)}{y=(y_1,...,y_p)} all sets of
-  \eqn{a=(a_1,\ldots,a_n)}{a=(a_1,...,a_p)} satisfying
-  \eqn{\sum_{i=1}^pa_i=n}{sum(a_i)=n} subect to \eqn{0<a_i\leq
+    \item Function \code{blockparts()} enumerates the compositions of an
+    integer subject to a maximum criterion: given vector
+    \eqn{y=(y_1,\ldots,y_n)}{y=(y_1,...,y_p)} all sets of
+    \eqn{a=(a_1,\ldots,a_n)}{a=(a_1,...,a_p)} satisfying
+    \eqn{\sum_{i=1}^pa_i=n}{sum(a_i)=n} subject to \eqn{0<a_i\leq
     y_i}{0<a_i<y_i} for all \eqn{i} are given in lexicographical order.
-  If argument \code{y} includes zero elements, these are treated
-  consistently (ie a position with zero capacity).
+    If argument \code{y} includes zero elements, these are treated
+    consistently (ie a position with zero capacity).
 
-  If \code{n} takes its default value of \code{NULL}, then
-  \eqn{\sum_{i=1}^pa_i=n}{sum(a_i)=n} is removed (the numbers may sum to
-  anything).  Note that these solutions are not necessarily in standard
-  form, so functions \code{durfee()} and \code{conjugate()} may fail.
+    If \code{n} takes its default value of \code{NULL}, then
+    \eqn{\sum_{i=1}^pa_i=n}{sum(a_i)=n} is removed (the numbers may sum
+    to anything).  Note that these solutions are not necessarily in
+    standard form, so functions \code{durfee()} and \code{conjugate()}
+    may fail.
 
-  Function \code{compositions()} returns all \eqn{2^n} ways of partitioning
-  an integer; thus \code{4+1+1} is distinct from \code{1+4+1} or
-  \code{1+1+4}.  This function is different from all the others in the
-  package in that it is written in \R; it is not clear that C
-  would be any faster.
+    \item Function \code{compositions()} returns all
+    \eqn{2^{n-1}}{2^(n-1)} ways of partitioning an integer; thus
+    \code{4+1+1} is distinct from \code{1+4+1} or \code{1+1+4}.  This
+    function is different from all the others in the package in that it
+    is written in \R; it is not clear that C would be any faster.
+  }
 }
 \author{Robin K. S. Hankin}
+\note{
+  These vectorized functions return a matrix whose columns are the
+  partitions.  If this matrix is too large, consider enumerating the
+  partitions individually using the functionality documented in
+  \code{nextpart.Rd}.
+}
+\seealso{\code{\link{nextpart}}}
 \references{
-G. E. Andrews. \dQuote{The Theory of Partitions},
-Cambridge University Press, 1998
+  \itemize{
+    \item G. E. Andrews. \dQuote{The theory of partitions},
+      Cambridge University Press, 1998
+    \item R. K. S. Hankin 2006.  \dQuote{Additive integer partitions in
+      \R}. \emph{Journal of Statistical Software}, Volume 16, code
+      snippet 1 
+    \item R. K. S. Hankin 2007.  \dQuote{Urn sampling without
+      replacement: enumerative combinatorics in \R}. \emph{Journal of
+      Statistical Software}, Volume 17, code snippet 1
+    \item R. K. S. Hankin 2007.  \dQuote{Set partitions in
+      \R}. \emph{Journal of Statistical Software}, Volume
+    23, code snippet 2
+  }
 }
 \examples{
 parts(5)
@@ -93,6 +115,8 @@ restrictedparts(9,4,decreasing=TRUE)
 blockparts(1:4)
 blockparts(1:4,3)
 blockparts(1:4,3,include.fewer=TRUE)
+
+blockparts(c(4,3,3,2),5)  # Knuth's example, Fascicle 3a, p16
 
 compositions(3)
 

@@ -44,9 +44,9 @@ S(f, n = NULL, include.fewer = FALSE)
   using Hindenburg's method (see Andrews) and counts them until the
   recursion bottoms out.
 
-  Function \code{S()} finds the coefficient of~\eqn{x^n} in the
+  Function \code{S()} finds the coefficient of \eqn{x^n} in the
   generating function \eqn{\prod_{i=1}^L\sum_{j=0}^{f_i}
-    x^j}{prod_{i=1, ..., L}(1+x+x^2+...+x^(f[i]))}, where \eqn{L} is the
+    x^j}{prod_{i=1}^{L}(1+x+x^2+...+x^(f[i]))}, where \eqn{L} is the
   length of \code{f}, using the \pkg{polynom} package.
   
   All these functions return a double.
@@ -56,7 +56,7 @@ S(f, n = NULL, include.fewer = FALSE)
   Functions \code{P()} and \code{Q()} use \code{unsigned long long}
   integers, a type which is system-dependent.  For me, \code{P()} works
   for \eqn{n} equal to or less than 416, and \code{Q()} works for
-  \eqn{n} less than or equal to 792.  YMMV;  none of the methods test
+  \eqn{n} less than or equal to 792.  \acronym{YMMV};  none of the methods test
   for overflow, so use with care!
 }
 \examples{

@@ -70,18 +70,17 @@ setparts(x)
   \code{i} has elements \code{which(x==u[i])}.
 }
 \value{
-
   Returns a matrix each of whose columns show a set partition; an object
-  of class \code{c("set_partition","partition")}. Type
-  \code{?print.partition} to see how to change the options for printing.
+  of class \code{"partition"}.  Type \code{?print.partition} to see how
+  to change the options for printing.
 }
 \references{
   \itemize{
     \item R. K. S. Hankin 2006.  \emph{Additive integer partitions in
-    \R}.  Journal of Statistical Software, Code Snippets 16(1)
-    \item R. K. S. Hankin 2007.  \emph{Urn sampling without replacement:
-      enumerative combinatorics in \R}.  Journal of Statistical
-      Software, Code Snippets 17(1)
+      \R}.  Journal of Statistical Software, Code Snippets 16(1)
+    \item R. K. S. Hankin 2007.  \dQuote{Set partitions in
+      \R}. \emph{Journal of Statistical Software}, Volume
+    23, code snippet 2   
   }
 }
 \author{Luke G. West (\code{C++}) and Robin K. S. Hankin (\R)}

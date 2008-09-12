@@ -39,11 +39,11 @@ void nextpart(int *x)
 	return;
 }
 
-void nextdiffpart(int *x, int ntri)
+void nextdiffpart(int *x, int *ntri)
 {
         int yy, a, aa, b, d, n;
 	
-	a=ntri;
+	a = *ntri;
 	while(x[--a] ==0){ }
 	aa=a; /* position of last nonzero */
 
@@ -217,7 +217,7 @@ void alldiffparts(int *n, int *len, int *ntri, int *x){
 		for(j=0 ; j < *ntri ; j++){
 			x[i+j] = x[i+j - *ntri];
 		}
-		nextdiffpart(x+i , *ntri);
+		nextdiffpart(x+i , ntri);
 	}
 }
 
@@ -280,12 +280,12 @@ void durfee(int *x, int *nrow, int *ncol, int *y)
 	}
 }
 
-int nextblockpart(int *x, const int *y,  const int len)
+int nextblockpart(int *x, const int *y, int *inlen)
 { /* "x" is the vector of numbers of blocks, "y" is
     the vector of maximum number of blocks,  "len"
     is the length of these vectors */
         int a,i,j;
-
+	const int len = *inlen;
 	for(i=0 , a=x[0] ; (!x[i++]) || (x[i] ==y[i]) ; a += x[i]){};
 	/* i: position of first stack into which a block can be moved */ 
 	/* a: number of blocks in stacks up to and including the first movable one */
@@ -342,7 +342,7 @@ void allblockparts(int *x, int *y, int *nb, int *len, int *total){
 	  for(j=0 ; j < *len ; j++){
 	    x[i+j] = x[i+j - *len];
 	  }
-	  nextblockpart(x+i, y, *len); 
+	  nextblockpart(x+i, y, len); 
 	}
 }
 
@@ -380,3 +380,33 @@ void allperms(int *x, int *len, int *nb){
 	}
 }
 */
+
+void tobin(int *num, int *out, int *len){
+	int i = *len -1;
+	int n = *num;
+	while(i >= 0){
+		out[i--] = n%2;
+		n /= 2;
+	}
+}
+
+void comptobin(int *comp, int *lencomp, int *ans){
+	int p=0;
+	for(int i=0 ; i < *lencomp ; i++){
+		while(--comp[i]){
+			ans[p++] = 0;
+		}
+		ans[p++] = 1;
+	}
+}
+
+void bintocomp(int *bin, int *lenbin, int *comp){
+	int p=0;
+	for(int i=0 ; i < *lenbin; i++){
+		if(bin[i]){
+			p++;
+		} else {
+			comp[p]++;
+		}
+	}
+}

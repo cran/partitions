@@ -114,6 +114,11 @@ stopifnot(jj == S(rep(1:4,each=2),5))
 jj <- compositions(7)
 stopifnot(all(apply(jj,2,sum)==7))
 
+# test that the bug has been corrected:
+stopifnot(all(apply(compositions(15,4,TRUE ),2,sum)==15))
+stopifnot(all(apply(compositions(15,4,FALSE),2,sum)==15))
+
+
 
 
 # some tests of setparts:
@@ -121,3 +126,16 @@ f <- function(jj){all(apply(setparts(jj),2,table)==jj)}
 stopifnot(f(c(3,2)))
 stopifnot(f(c(3,1)))
 stopifnot(f(c(3,2,1)))
+
+
+# some tests of the comptobin(); not run because it needs the elliptic package:
+f <- function(n){
+  jj <- as.integer(mobius(seq_len(n))==0)
+  return(
+         identical(jj , comptobin(bintocomp(jj,TRUE ))) &
+         identical(jj , comptobin(bintocomp(jj,FALSE)))
+         )
+}
+if(FALSE){
+  f(1000)
+}

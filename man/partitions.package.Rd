@@ -37,11 +37,15 @@ is not necessarily in standard form.
       Mathematical Functions}, New York: Dover
     \item G. H. Hardy and E. M. Wright 1985 \emph{An introduction to
       the theory of numbers}, Clarendon Press: Oxford (fifth edition)
-    \item R. K. S. Hankin 2006. \emph{Additive integer partitions in \R}.
-    Journal of Statistical Software, Code Snippets, 16(1)
-    \item R. K. S. Hankin 2007. \emph{Urn sampling without replacement:
-      enumerative combinatorics in \R}.  Journal of Statistical Software,
-      Code Snippets, 17(1)
+    \item R. K. S. Hankin 2006.  \dQuote{Additive integer partitions in
+      \R}. \emph{Journal of Statistical Software}, Volume 16, code
+    snippet 1 
+    \item R. K. S. Hankin 2007.  \dQuote{Urn sampling without
+      replacement: enumerative combinatorics in \R}. \emph{Journal of
+      Statistical Software}, Volume 17, code snippet 1
+    \item R. K. S. Hankin 2007.  \dQuote{Set partitions in
+      \R}. \emph{Journal of Statistical Software}, Volume
+    23, code snippet 2
   }
 }
 \keyword{package}

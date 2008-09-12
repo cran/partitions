@@ -1,0 +1,46 @@
+This is BibTeX, Version 0.99c (Web2C 7.4.5)
+The top-level auxiliary file: setpartitions.aux
+The style file: jss.bst
+Database file #1: partitions.bib
+Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
+You've used 15 entries,
+            3129 wiz_defined-function locations,
+            715 strings with 6671 characters,
+and the built_in function-call counts, 9925 in all, are:
+= -- 821
+> -- 210
+< -- 14
++ -- 86
+- -- 66
+* -- 737
+:= -- 1420
+add.period$ -- 57
+call.type$ -- 15
+change.case$ -- 83
+chr.to.int$ -- 14
+cite$ -- 15
+duplicate$ -- 912
+empty$ -- 947
+format.name$ -- 95
+if$ -- 2010
+int.to.chr$ -- 2
+int.to.str$ -- 1
+missing$ -- 141
+newline$ -- 86
+num.names$ -- 60
+pop$ -- 294
+preamble$ -- 1
+purify$ -- 82
+quote$ -- 0
+skip$ -- 250
+stack$ -- 0
+substring$ -- 783
+swap$ -- 313
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 126
+warning$ -- 0
+while$ -- 80
+width$ -- 0
+write$ -- 204

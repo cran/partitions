@@ -1,0 +1,96 @@
+\begin{thebibliography}{15}
+\newcommand{\enquote}[1]{``#1''}
+\expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
+\expandafter\ifx\csname url\endcsname\relax
+  \def\url#1{\texttt{#1}}\fi
+\expandafter\ifx\csname urlprefix\endcsname\relax\def\urlprefix{URL }\fi
+\providecommand{\eprint}[2][]{\url{#2}}
+
+\bibitem[{Andrews(1998)}]{andrews1998}
+Andrews GE (1998).
+\newblock \emph{The Theory Of Partitions}.
+\newblock Cambridge University Press.
+
+\bibitem[{Bender(1974)}]{bender1974}
+Bender EA (1974).
+\newblock \enquote{Asymptotic Methods in Enumeration.}
+\newblock \emph{SIAM Review}, \textbf{16}(4), 485.
+
+\bibitem[{Corless \emph{et~al.}(1996)Corless, Gonnet, Hare, Jeffrey, and
+  Knuth}]{corless1996}
+Corless RM, Gonnet GH, Hare DEG, Jeffrey DJ, Knuth DE (1996).
+\newblock \enquote{On the Lambert W Function.}
+\newblock \emph{Advances in Computational Mathematics}, \textbf{5}, 329--359.
+
+\bibitem[{Garey and Johnson(1975)}]{garey1975}
+Garey MR, Johnson DS (1975).
+\newblock \enquote{Complexity Results for Multiprocessor Scheduling Under
+  Resource Constraints.}
+\newblock \emph{SIAM Journal of Computing}, \textbf{4}(4), 397--411.
+
+\bibitem[{Glover(1997)}]{glover1997}
+Glover F (1997).
+\newblock \emph{Tabu Search}.
+\newblock Kluwer Academic.
+
+\bibitem[{Hankin(2005)}]{hankin2006}
+Hankin RKS (2005).
+\newblock \enquote{Additive integer partitions in \proglang{R}.}
+\newblock \emph{Journal of Statistical Software, Code Snippets},
+  \textbf{16}(1).
+
+\bibitem[{Hankin(2006)}]{hankin2006b}
+Hankin RKS (2006).
+\newblock \enquote{Special Functions in \proglang{R}: Introducing the \pkg{gsl}
+  Package.}
+\newblock \emph{\proglang{R} News}, \textbf{6}(4), 24--26.
+\newblock \urlprefix\url{http://CRAN.R-project.org/doc/Rnews/}.
+
+\bibitem[{Hankin(2007{\natexlab{a}})}]{hankin2007a}
+Hankin RKS (2007{\natexlab{a}}).
+\newblock \enquote{Set partitions in \proglang{R}.}
+\newblock \emph{Journal of Statistical Software, Code Snippets},
+  \textbf{23}(2).
+
+\bibitem[{Hankin(2007{\natexlab{b}})}]{hankin2007}
+Hankin RKS (2007{\natexlab{b}}).
+\newblock \enquote{Urn sampling without replacement: enumerative combinatorics
+  in \proglang{R}.}
+\newblock \emph{Journal of Statistical Software, Code Snippets},
+  \textbf{17}(1).
+
+\bibitem[{Hardy and Ramanujan(1918)}]{hardy1918}
+Hardy GH, Ramanujan S (1918).
+\newblock \enquote{Asymptotic Formul\ae\ in Combinatorial Analysis.}
+\newblock \emph{Proceedings of the London Mathematical Society}, \textbf{17},
+  75--115.
+\newblock Series 2.
+
+\bibitem[{Killworth(2007)}]{killworth2007}
+Killworth P (2007).
+\newblock Personal Communication.
+
+\bibitem[{{\proglang{R} Development Core Team}(2007)}]{rcore2007}
+{\proglang{R} Development Core Team} (2007).
+\newblock \emph{\proglang{R}: A Language and Environment for Statistical
+  Computing}.
+\newblock \proglang{R} Foundation for Statistical Computing, Vienna, Austria.
+\newblock {ISBN} 3-900051-07-0, \urlprefix\url{http://www.R-project.org}.
+
+\bibitem[{Roberts(2003)}]{roberts2003}
+Roberts AR (2003).
+\newblock \emph{Critical Issues in Crime and Justice}.
+\newblock Sage Publications.
+
+\bibitem[{Rodzen and May(2002)}]{rodzen2002}
+Rodzen JA, May B (2002).
+\newblock \enquote{Inheritance of Microsatellite Loci in the White Sturgeon
+  (\emph{Acipenser Transmontanus}).}
+\newblock \emph{Genome}, \textbf{45}, 1064--1076.
+
+\bibitem[{Rota(1964)}]{rota1964}
+Rota GC (1964).
+\newblock \enquote{The Number of Partitions of a Set.}
+\newblock \emph{The American Mathematical Monthly}, \textbf{71}(5), 498--504.
+
+\end{thebibliography}

@@ -181,7 +181,7 @@ equivalence class precedes the second).
 \caption{The\label{algorithm} algorithm used to enumerate set
   partitions of a given shape.  Unfilled positions are indicated by a
   dot.  Of the partitions at a given level, the children of one
-  (indicated by an arrow) are shown.
+  are shown.
   The initial empty configuration is filled from left to right from a
   `pool' of unused elements; equivalence classes are ordered by size
   (largest first) and ties are broken lexicographically at runtime to
@@ -306,7 +306,7 @@ a <- c(1,2,3,2,1)
 split(seq_along(a),a)
 @ 
 
-
+[use \code{listParts(c(2,2,1))} to see all possible equivalence classes].
 Two examples of electrophoresis gels, corresponding to the partitions
 of the first and last columns respectively, are shown in
 figure~\ref{electrophoresis_gels}, which is analogous to Figure~1

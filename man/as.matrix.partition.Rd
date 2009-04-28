@@ -6,7 +6,7 @@
 Coercion to and from partitions
 }
 \usage{
-as.matrix.partition(x, ...)
+\S3method{as.matrix}{partition}(x, ...)
 as.partition(x, ...)
 }
 \arguments{

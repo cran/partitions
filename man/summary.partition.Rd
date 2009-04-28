@@ -6,7 +6,7 @@ Provides a summary of an object of class \code{partition}: usually  the
 first and last few partitions (columns)
 }
 \usage{
-summary.partition(object, ...)
+\S3method{summary}{partition}(object, ...)
 }
 \arguments{
   \item{object}{Partition}

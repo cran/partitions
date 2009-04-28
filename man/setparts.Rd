@@ -1,11 +1,13 @@
 \name{setparts}
 \alias{setparts}
+\alias{listParts}
 \title{Set partitions}
 \description{
   Enumeration of set partitions
 }
 \usage{
 setparts(x)
+listParts(x)
 }
 \arguments{
   \item{x}{If a vector of length 1, the size of the set to be
@@ -28,6 +30,7 @@ setparts(x)
   
   The induced \dfn{equivalence relation} has \eqn{i\sim j}{i~j} if
   and only if \eqn{i} and \eqn{j} belong to the same partition.
+  Equivalence classes may be listed using \code{listParts()}
   
   There are exactly fifteen ways to partition a set of four
   elements:
@@ -67,7 +70,9 @@ setparts(x)
   \code{x} is 1); class 2 contains elements 2 and 4 (because the second
   and fourth element of \code{x} is 2); and class 3 contains element 3
   (because the third element of \code{x} is 3)}.  Formally, class
-  \code{i} has elements \code{which(x==u[i])}.
+\code{i} has elements \code{which(x==u[i])}.
+
+You can change the print method by setting, eg,  \code{option(separator="")}.
 }
 \value{
   Returns a matrix each of whose columns show a set partition; an object
@@ -83,7 +88,9 @@ setparts(x)
     23, code snippet 2   
   }
 }
-\author{Luke G. West (\code{C++}) and Robin K. S. Hankin (\R)}
+\author{Luke G. West (\code{C++}) and Robin K. S. Hankin (\R);
+\code{listParts()} provided by Diana Tichy
+}
 \seealso{\code{\link{parts}}, \code{\link{print.partition}}}
 \examples{
 setparts(4)                # all partitions of a set of 4 elements
@@ -95,6 +102,8 @@ setparts(c(3,3,2))         # all partitions of a set of 8 elements
 jj <- restrictedparts(5,3)
 setparts(jj)               # partitions of a set of 5 elements into
                            # at most 3 sets
+
+listParts(jj)              # induced equivalence classes
 
 setparts(conjugate(jj))    # partitions of a set of 5 elements into
                            # sets not exceeding 3 elements

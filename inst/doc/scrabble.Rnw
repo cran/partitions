@@ -158,7 +158,7 @@ them sequentially in the frame, starting from the left.
 \end{enumerate}
 
 
-Figure~\ref{blocks} shows an example of this in action.  The top
+Figure~\ref{blocks} shows an example of this in action.  The left
 diagram shows a draw of a bishop and two knights, corresponding to the
 the second column of the matrix returned by \code{blockparts()} above.
 The first block that can be moved is one of the knights.  This moves
@@ -172,18 +172,18 @@ order, which is useful in some contexts.
 
 \begin{figure}[htbp]
   \begin{center}
-\includegraphics[width=5cm]{blocks}
+\includegraphics[width=10cm]{blocks}
 \caption{A pictorial description of the algorithm used in \label{blocks}
   function \code{blockparts()}.  Three blocks (grey squares) are
   arranged in a tableau (B, N, R, Q, representing the chess pieces
-  under consideration) in two consecutive configurations, the upper
+  under consideration) in two consecutive configurations, the left
   one first.  The larger, line squares above each piece name show the
   maximum number of chess pieces allowed; thus the two knights in the
-  upper diagram completely fill the `N' column and this indicates that
-  a maximum of two knights may be drawn.  The upper diagram thus
+  left diagram completely fill the `N' column and this indicates that
+  a maximum of two knights may be drawn.  The left diagram thus
   corresponds to one bishop and two knights: this is column two in the
   matrix returned by \code{blockparts()} in the \proglang{R} chunk
-  above.  The lower diagram shows the next lexicographical
+  above.  The right diagram shows the next lexicographical
   arrangement, corresponding to column three; the algorithm for the
   change is described in the text} \end{center} \end{figure}
 

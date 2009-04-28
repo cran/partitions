@@ -22,9 +22,10 @@ durfee(x)
   \code{rev(cumsum(table(factor(a[a>0],levels=max(a):1))))}, but faster.
 
   The \dQuote{Durfee square} of a partition is defined on page 281 of
-  Hardy and Wright.   It is the largest square of nodes contained in the
-  partition's Ferrers graph.  Function \code{durfee()} returns the side
-  of the Durfee square which Andrews denotes
+  Hardy and Wright.  It is the largest square of nodes contained in the
+  partition's Ferrers graph.  Function \code{durfee()} returns the
+  length of the side
+  of the Durfee square, which Andrews denotes
   \eqn{d(\lambda)}{d(lambda)}.  It is equivalent to \R idiom
   \code{function(a){sum(a>=1:length(a))}}, but faster.
   

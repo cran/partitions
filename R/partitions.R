@@ -44,9 +44,18 @@ print.summary.partition <- function(x, ...){
 }
   
 "setparts" <- function(x){
-  if(length(x)==1){return(Recall(parts(x)))}
+  if(length(x)==1){
+    if (x < 1){
+      stop("if single value, x must be >= 1")
+    }
+    else if (x == 1){
+      out <- matrix(1, 1, 1)
+    } else
+    return(Recall(parts(x)))
+  }
   if(is.matrix(x)){
-    out <- do.call("cbind",apply(x,2,setparts))
+    out <- apply(x,2,setparts)
+    if(is.list(out)){out <- do.call("cbind",out)}
   } else {
     x <- sort(x[x>0], decreasing=TRUE)
     num.of.parts <-
@@ -60,6 +69,23 @@ print.summary.partition <- function(x, ...){
     dim(out) <- c(sum(x),num.of.parts)
   }
   return(as.partition(out))
+}
+
+"listParts" <- function(x) {
+  f <- function(pp){
+    out <- split(seq_along(pp),pp)
+    class(out) <- c(class(out),"equivalence")
+    out
+  }
+  apply(setparts(x), 2, f)
+}
+
+"print.equivalence" <- function(x,sep=getOption("separator"), ...){
+  if(is.null(sep)){sep <- ","}
+  f <- function(x){paste(c("(",paste(x,collapse=sep),")"),collapse="")}
+  out <- paste(unlist(lapply(x,f)),collapse="")
+  x <-  unclass(x)
+  return(invisible(print(noquote(out))))
 }
 
 "print.partition" <- function(x, mat=getOption("matrixlike"), h=getOption("horiz"), ...){
@@ -555,13 +581,36 @@ if(FALSE){
 }
 
 "perms" <- function(n){
-  out <-
-    .C("flail",
-       as.integer(n),
-       integer(n),
-       ans=integer(n*factorial(n)),
-       PACKAGE="partitions")$ans
+  fn <- factorial(n)
+  a <- integer(n*fn)
 
-  out <- matrix(out,nrow=n)
+  out <- .C("allperms",
+            ans = a,
+            as.integer(n),
+            as.integer(fn),
+            PACKAGE="partitions"
+            )$ans
+    
+  dim(out) <- c(n,fn)
   return(as.partition(out))
 }
+
+
+"plainperms" <- function(n){
+  fn <- factorial(n)
+  kk <- integer(n*fn)
+
+
+  out <- .C("plainperms",
+            ans = kk,
+            as.integer(n),
+            as.integer(fn),
+            PACKAGE="partitions"
+            )$ans
+    
+  dim(out) <- c(n,fn)
+  return(as.partition(out))
+}
+
+
+

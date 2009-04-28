@@ -39,15 +39,14 @@ void nextpart(int *x)
 	return;
 }
 
-void nextdiffpart(int *x, int *ntri)
+void nextdiffpart(int *x, const int *ntri)
 {
-        int yy, a, aa, b, d, n;
+        int yy, a, aa, d, n;
 	
 	a = *ntri;
 	while(x[--a] ==0){ }
 	aa=a; /* position of last nonzero */
 
-	b=0;
 	d=1;
 	n=0;
 	while ( (x[a]-d) < 2) {
@@ -67,7 +66,7 @@ void nextdiffpart(int *x, int *ntri)
 	return;
 }
 
-int nextrestrictedpart(int *x, int *len) /* algorithm on p232 of Andrews */
+int nextrestrictedpart(int *x, const int *len) /* algorithm on p232 of Andrews */
 {
 	int a, j, m, r;
 
@@ -100,7 +99,7 @@ int nextrestrictedpart(int *x, int *len) /* algorithm on p232 of Andrews */
 	return 0;
 }
 
-void numbparts(int *n, double *p){/* p(1)...p(n) calculated using
+void numbparts(const int *n, double *p){/* p(1)...p(n) calculated using
 				     Euler's recursive formula on p825
 				     of Abramowitz & Stegun */
 	int i, s, f, r;
@@ -140,7 +139,7 @@ void numbparts(int *n, double *p){/* p(1)...p(n) calculated using
 	
 }
 
-void numbdiffparts(int *n, double *q){/* q(1)...q(n) calculated using
+void numbdiffparts(const int *n, double *q){/* q(1)...q(n) calculated using
 					 the recursion on p826 of
 					 Abramowitz and Stegun*/
 	int i,s,f,r;
@@ -181,7 +180,7 @@ void numbdiffparts(int *n, double *q){/* q(1)...q(n) calculated using
         }
 }
 
-int numbrestrictedparts(int *x, int m){ /* array x is  c(rep(1,m-1),n-m+1) */
+int numbrestrictedparts(int *x, const int m){ /* array x is  c(rep(1,m-1),n-m+1) */
 	int count=1;
 	while(nextrestrictedpart(x, &m)==0)
 	{
@@ -190,11 +189,11 @@ int numbrestrictedparts(int *x, int m){ /* array x is  c(rep(1,m-1),n-m+1) */
 	return count;
 }
 
-void numbrestrictedparts_R(int *x, int *m, int *ans){
+void numbrestrictedparts_R(int *x, const int *m, int *ans){
 	*ans = numbrestrictedparts(x, *m);
 }
 
-void allparts(int *n, int *len, int *x){
+void allparts(const int *n, const int *len, int *x){
 	int i,j;
 	x[0] = *n;
 	for(i=1 /* sic */ ; i < *n ;  i++){ 
@@ -209,7 +208,7 @@ void allparts(int *n, int *len, int *x){
 	}
 }
 
-void alldiffparts(int *n, int *len, int *ntri, int *x){
+void alldiffparts(const int *n, const int *len, const int *ntri, int *x){
 	int i,j;
 	x[0] = *n;
 	
@@ -221,7 +220,7 @@ void alldiffparts(int *n, int *len, int *ntri, int *x){
 	}
 }
 
-void allrestrictedparts(int *m, int *n, int *len, int *inc, int *x){
+void allrestrictedparts(const int *m, const int *n, const int *len, const int *inc, int *x){
 	int i,j;
 	if(*inc == 0){
 		for(i=0 ; i < (*m)-1 ; i++){ 
@@ -244,7 +243,7 @@ void allrestrictedparts(int *m, int *n, int *len, int *inc, int *x){
 }
 
 
-void conjugate_vector(int *x, int len, int *y)
+void conjugate_vector(int *x, const int len, int *y)
 {
 	int i,j;
 	for(j=0 ; x[0]>0 ; j++)
@@ -257,7 +256,7 @@ void conjugate_vector(int *x, int len, int *y)
 	}
 }
 
-void conjugate(int *x, int *nrow, int *ncol, int *nmax, int *y)
+void conjugate(int *x, const int *nrow, const int *ncol, const int *nmax, int *y)
 {
 	int i;
 	for(i=0 ; i< (*ncol) ; i++){
@@ -265,14 +264,14 @@ void conjugate(int *x, int *nrow, int *ncol, int *nmax, int *y)
 	}
 }
 
-int durfee_vector(int *x)
+int durfee_vector(const int *x)
 {
       int i;
       for(i=0 ; x[i]>i ; i++){}
       return i;
 }
 
-void durfee(int *x, int *nrow, int *ncol, int *y)
+void durfee(const int *x, const int *nrow, const int *ncol, int *y)
 {
 	int i;
 	for(i=0 ; i< (*ncol) ; i++){
@@ -280,7 +279,7 @@ void durfee(int *x, int *nrow, int *ncol, int *y)
 	}
 }
 
-int nextblockpart(int *x, const int *y, int *inlen)
+int nextblockpart(int *x, const int *y, const int *inlen)
 { /* "x" is the vector of numbers of blocks, "y" is
     the vector of maximum number of blocks,  "len"
     is the length of these vectors */
@@ -318,7 +317,7 @@ int nextblockpart(int *x, const int *y, int *inlen)
 }
 
 
-void allblockparts(int *x, int *y, int *nb, int *len, int *total){
+void allblockparts(int *x, const int *y, const int *nb, const int *len, const int *total){
 /* arguments: "x" is the initial block arrangements, "y" is the stack,
    "nb" is the number of block arrangements (from numbblockparts()),
    "len" is the length of vectors "x" and "y", and "total" is the number
@@ -381,7 +380,7 @@ void allperms(int *x, int *len, int *nb){
 }
 */
 
-void tobin(int *num, int *out, int *len){
+void tobin(const int *num, int *out, const int *len){
 	int i = *len -1;
 	int n = *num;
 	while(i >= 0){
@@ -390,7 +389,7 @@ void tobin(int *num, int *out, int *len){
 	}
 }
 
-void comptobin(int *comp, int *lencomp, int *ans){
+void comptobin(int *comp, const int *lencomp, int *ans){
 	int p=0;
 	for(int i=0 ; i < *lencomp ; i++){
 		while(--comp[i]){
@@ -400,7 +399,7 @@ void comptobin(int *comp, int *lencomp, int *ans){
 	}
 }
 
-void bintocomp(int *bin, int *lenbin, int *comp){
+void bintocomp(const int *bin, const int *lenbin, int *comp){
 	int p=0;
 	for(int i=0 ; i < *lenbin; i++){
 		if(bin[i]){

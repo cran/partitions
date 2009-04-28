@@ -1,7 +1,6 @@
 \name{parts}
 \alias{parts}
 \alias{diffparts}
-\alias{perms}
 \alias{restrictedparts}
 \alias{blockparts}
 \alias{compositions}
@@ -15,13 +14,12 @@
   \code{restrictedparts()} returns the restricted partitions; function
   \code{blockparts()} returns the partitions subject to specified
   maxima; function \code{compositions()} returns all compositions
-  of the argument; and function \code{allperms()} returns all permutations.
-}
+  of the argument.
+  }
 
 \usage{
 parts(n)
 diffparts(n)
-perms(n)
 restrictedparts(n, m, include.zero=TRUE, decreasing=TRUE)
 blockparts(f, n=NULL, include.fewer=FALSE)
 compositions(n, m=NULL, include.zero=TRUE)
@@ -93,10 +91,6 @@ compositions(n, m=NULL, include.zero=TRUE)
 
   One commonly encountered idiom is \code{blockparts(rep(n,n),n)}, which
   is equivalent to \code{compositions(n,n)} [Sloane's \code{A001700}].
-
-  The C code for \code{allperms()} is not written by me (grabbed from
-  the internet with no clear author).
-  
 }
 \seealso{\code{\link{nextpart}}}
 \references{
@@ -120,7 +114,6 @@ compositions(n, m=NULL, include.zero=TRUE)
 \examples{
 parts(5)
 diffparts(10)
-perms(4)
 restrictedparts(9,4)
 restrictedparts(9,4,FALSE)
 restrictedparts(9,4,decreasing=TRUE)

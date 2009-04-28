@@ -1,3 +1,12 @@
+".fac" <- function(x){  # exact factorial; NB returns (by design) a
+                        # bigz; used in setparts()
+  out <- as.bigz(1)
+  for(n in x){
+    out <- out * prod(as.bigz(seq_len(n)))
+  }
+  return(out)
+}
+    
 "as.matrix.partition" <- function(x, ...){
   class(x) <- "matrix"
   NextMethod("as.matrix")
@@ -59,7 +68,7 @@ print.summary.partition <- function(x, ...){
   } else {
     x <- sort(x[x>0], decreasing=TRUE)
     num.of.parts <-
-      factorial(sum(x))/(prod(c(factorial(x),factorial(table(x)))))
+      as.integer(.fac(sum(x))/(prod(c(.fac(x),.fac(table(x))))))
     out <- .C("wrap",
               as.integer(x),
               as.integer(length(x)),
@@ -525,9 +534,7 @@ function(n, give=FALSE){
 if(FALSE){
   "U" <- function(y,naive=FALSE){
     if(naive){
-      return(
-             factorial(sum(y))/prod(factorial(y))
-             )
+      return(as.integer(.fac(sum(y))/prod(.fac(y))))
     } else {
       stop("not implemented")
     }

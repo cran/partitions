@@ -1,2 +1,7 @@
 exportPattern("^[^\\.]")
 useDynLib(partitions)
+import("gmp")
+importFrom("polynom",polynomial)
+
+
+

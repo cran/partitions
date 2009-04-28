@@ -51,7 +51,7 @@ void allperms(int *a, const int *nin, const int *fn){
 void plainperms(int *x, const int *nin, const int *fn){
   const int n = *nin;
   int i,j,m,q,s,i1,i2;
-  int c[n-1], o[n-1];
+  int c[n], o[n];
 
   for(int j=0 ; j<n ; j++){
 	  c[j]=0; /* P1 */

@@ -188,6 +188,19 @@ function(n){
 }
 
 "restrictedparts" <- function(n, m, include.zero=TRUE, decreasing=TRUE){
+  if(m>n){  #NB: strict
+    if(!include.zero){
+      stop("m>n and include.zero=FALSE are incompatible")
+    }
+    jj <- Recall(n,n,include.zero=include.zero,decreasing=decreasing)
+    if(decreasing){
+      jj <- rbind(jj, matrix(0L,m-n,ncol(jj)))
+    } else {
+      jj <- rbind(matrix(0L,m-n,ncol(jj)),jj)
+    }
+    return(as.partition(jj))
+  }
+
   jj.n <- R(m,n,include.zero=include.zero)
   len <- m*jj.n
 

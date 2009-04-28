@@ -60,6 +60,8 @@ compositions(n, m=NULL, include.zero=TRUE)
     \eqn{m} parts, the same Hindenburg's algorithm is used but with a
     start vector of \code{c(rep(0,m-1),n)}.
 
+    If \eqn{m>n}, the partitions are padded with zeros.
+
     \item Function \code{blockparts()} enumerates the compositions of an
     integer subject to a maximum criterion: given vector
     \eqn{y=(y_1,\ldots,y_n)}{y=(y_1,...,y_p)} all sets of

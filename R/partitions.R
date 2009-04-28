@@ -391,6 +391,7 @@ function(n, m=NULL, include.zero=TRUE){
 
 "P" <-
 function(n, give=FALSE){
+  stopifnot(length(n)==1)
   n <- n+1
   jj <- .C("numbparts",
            as.integer(n),
@@ -405,6 +406,8 @@ function(n, give=FALSE){
 }
 
 "R" <- function(m,n, include.zero=FALSE){
+  stopifnot(length(m)==1)
+  stopifnot(length(n)==1)
   stopifnot(m <= n)
   if(include.zero){
     start <- c(rep(0,m-1),n)
@@ -421,6 +424,7 @@ function(n, give=FALSE){
 }
 
 "Q" <- function(n, give=FALSE){
+  stopifnot(length(n)==1)
   n <- n+1
   jj <- .C("numbdiffparts",
            as.integer(n),
@@ -548,4 +552,16 @@ if(FALSE){
   } else {
     diff(c(0L,which(c(bin,1L)>0)))
   }
+}
+
+"perms" <- function(n){
+  out <-
+    .C("flail",
+       as.integer(n),
+       integer(n),
+       ans=integer(n*factorial(n)),
+       PACKAGE="partitions")$ans
+
+  out <- matrix(out,nrow=n)
+  return(as.partition(out))
 }

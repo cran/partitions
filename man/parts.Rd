@@ -1,25 +1,27 @@
 \name{parts}
 \alias{parts}
 \alias{diffparts}
+\alias{perms}
 \alias{restrictedparts}
 \alias{blockparts}
 \alias{compositions}
 \title{Enumerate the partitions of an integer}
 \description{
-  Given an integer, return a matrix whose columns enumerate its
+  Given an integer, return a matrix whose columns enumerate various
   partitions.
 
   Function \code{parts()} returns the unrestricted partitions; function
   \code{diffparts()} returns the unequal partitions; function
   \code{restrictedparts()} returns the restricted partitions; function
   \code{blockparts()} returns the partitions subject to specified
-  maxima; and function \code{compositions()} returns all compositions
-  of the argument.
+  maxima; function \code{compositions()} returns all compositions
+  of the argument; and function \code{allperms()} returns all permutations.
 }
 
 \usage{
 parts(n)
 diffparts(n)
+perms(n)
 restrictedparts(n, m, include.zero=TRUE, decreasing=TRUE)
 blockparts(f, n=NULL, include.fewer=FALSE)
 compositions(n, m=NULL, include.zero=TRUE)
@@ -64,16 +66,16 @@ compositions(n, m=NULL, include.zero=TRUE)
     integer subject to a maximum criterion: given vector
     \eqn{y=(y_1,\ldots,y_n)}{y=(y_1,...,y_p)} all sets of
     \eqn{a=(a_1,\ldots,a_n)}{a=(a_1,...,a_p)} satisfying
-    \eqn{\sum_{i=1}^pa_i=n}{sum(a_i)=n} subject to \eqn{0<a_i\leq
-    y_i}{0<a_i<y_i} for all \eqn{i} are given in lexicographical order.
-    If argument \code{y} includes zero elements, these are treated
-    consistently (ie a position with zero capacity).
+    \eqn{\sum_{i=1}^pa_i=n}{sum(a_i)=n} subject to \eqn{0\leq a_i\leq
+    y_i}{0 <= a_i <= y_i} for all \eqn{i} are given in lexicographical
+    order.  If argument \code{y} includes zero elements, these are
+    treated consistently (ie a position with zero capacity).
 
-    If \code{n} takes its default value of \code{NULL}, then
-    \eqn{\sum_{i=1}^pa_i=n}{sum(a_i)=n} is removed (the numbers may sum
-    to anything).  Note that these solutions are not necessarily in
-    standard form, so functions \code{durfee()} and \code{conjugate()}
-    may fail.
+    If \code{n} takes its default value of \code{NULL}, then the
+    restriction \eqn{\sum_{i=1}^pa_i=n}{sum(a_i)=n} is relaxed (so that
+    the numbers may sum to anything).  Note that these solutions are not
+    necessarily in standard form, so functions \code{durfee()} and
+    \code{conjugate()} may fail.
 
     \item Function \code{compositions()} returns all
     \eqn{2^{n-1}}{2^(n-1)} ways of partitioning an integer; thus
@@ -91,6 +93,9 @@ compositions(n, m=NULL, include.zero=TRUE)
 
   One commonly encountered idiom is \code{blockparts(rep(n,n),n)}, which
   is equivalent to \code{compositions(n,n)} [Sloane's \code{A001700}].
+
+  The C code for \code{allperms()} is not written by me (grabbed from
+  the internet with no clear author).
   
 }
 \seealso{\code{\link{nextpart}}}
@@ -115,6 +120,7 @@ compositions(n, m=NULL, include.zero=TRUE)
 \examples{
 parts(5)
 diffparts(10)
+perms(4)
 restrictedparts(9,4)
 restrictedparts(9,4,FALSE)
 restrictedparts(9,4,decreasing=TRUE)

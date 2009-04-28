@@ -13,7 +13,7 @@
 \newcommand{\cd}{\cdot}
 
 %% just as usual
-\author{Robin K. S. Hankin\\The University of Cambridge\And
+\author{Robin K. S. Hankin\\University of Cambridge\And
 Luke J. West\\National Oceanography Centre, Southampton}
 \title{Set Partitions in \proglang{R}}
 %\VignetteIndexEntry{Set partitions in R}
@@ -53,10 +53,10 @@ Enumerative Combinatorics, R}
 %% in the following format:
 \Address{
   Robin K. S. Hankin\\
-  The University of Cambridge\\
+  University of Cambridge\\
   19 Silver Street\\
   Cambridge CB3 9EP\\
-  E-mail: \email{rksh1@cam.ac.uk}\\
+  E-mail: \email{hankin.robin@gmail.com}\\
   {}\\
   Luke J. West\\
   National Oceanography Centre, Southampton\\
@@ -80,7 +80,6 @@ Enumerative Combinatorics, R}
 <<load.library,echo=FALSE,print=FALSE>>=
 <<results=hide>>=
 require(partitions)
-require(gtools) 
 @ 
 
 \section{Introduction}

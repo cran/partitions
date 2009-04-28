@@ -1,14 +1,16 @@
 Package: partitions
 Type: Package
 Title: Additive partitions of integers
-Version: 1.9-3
-Date: 2008-09-12
+Version: 1.9-6
+Date: 2009-04-28
 Author: Robin K. S. Hankin
 Depends: polynom
-Maintainer: Robin K. S. Hankin <rksh1@cam.ac.uk>
+Maintainer: Robin K. S. Hankin <hankin.robin@gmail.com>
 Description: Additive partitions of integers.  Enumerates the
-  partitions, unequal partitions, and restricted partitions of an
-  integer; the three corresponding partition functions are also
-  given.  Set partitions are now included.
+        partitions, unequal partitions, and restricted partitions of an
+        integer; the three corresponding partition functions are also
+        given.  Set partitions are now included.
 License: GPL
-Packaged: Fri Feb 13 19:25:21 2009; rksh
+Packaged: 2009-04-28 18:48:18 UTC; rksh
+Repository: CRAN
+Date/Publication: 2009-05-05 07:29:08

@@ -31,7 +31,7 @@ namespace prt {
 
  class Digits: public Vector<int > {
  public:
-  Digits(size_t n):Vector<int>(n) {for(int i=0;i<n;i++) at(i)=i+1;}
+  Digits(size_t n):Vector<int>(n) {for(int i=0;i<(int)n;i++) at(i)=i+1;}
 
   int  get(size_t i)        {int r=at(i); at(i)=back(); pop_back(); return r;}
   void put(size_t i, int v) {if (i==size()) push_back(v); else {push_back(at(i)); at(i)=v;}}
@@ -44,18 +44,18 @@ namespace prt {
 
   bool lt(const Tuple& c) {if (size()==c.size()) for(size_t i=0;i<size();i++) if (at(i)!=c[i]) return at(i)<c[i]; return c.size()<size();}
 
-  bool ordered() const {for(int i=1;i<size();i++) if (at(i)<=at(i-1)) return false; return true;}
+  bool ordered() const {for(int i=1;i<(int)size();i++) if (at(i)<=at(i-1)) return false; return true;}
 
-  bool find(const int& a) const {for(int i=0;i<size();i++) if (at(i)==a) return true; return false;}
+  bool find(const int& a) const {for(int i=0;i<(int)size();i++) if (at(i)==a) return true; return false;}
 
-  void fillmaxint() {for(int i=0;i<size();i++) at(i)=std::numeric_limits<int>::max()-size()+i;}
+  void fillmaxint() {for(int i=0;i<(int)size();i++) at(i)=std::numeric_limits<int>::max()-size()+i;}
  }; // Tuple
 
 
  class Partition: public Vector<Tuple > {
   size_t num;
 
-  void print(std::ostream& s) const {for(int j=0;j<size();j++) s << at(j) << "\n";}
+  void print(std::ostream& s) const {for(int j=0;j<(int)size();j++) s << at(j) << "\n";}
 
  public:
   Partition(const Tuple& t):Vector<Tuple >(t.size()),num(0) {for(size_t i=0;i<t.size();i++) {at(i)=Tuple(t[i]); at(i).fillmaxint(); num+=t[i];}}
@@ -63,8 +63,8 @@ namespace prt {
   size_t number() const {return num;}
 
   void inject(int* o) {
-   for(int i=0;i<num;i++) {
-    for(int j=0;j<size();j++) {
+   for(int i=0;i<(int)num;i++) {
+    for(int j=0;j<(int)size();j++) {
      if (at(j).find(i+1)) o[i]=j+1;
     }
    }
@@ -94,7 +94,7 @@ namespace prt {
     return doit(t+1,0);
    }
 
-   for(int i=0;i<digits.size();i++) {
+   for(int i=0;i<(int)digits.size();i++) {
     shape[t][e]=digits.get(i);
     doit(t,e+1);
     digits.put(i,shape[t][e]);
@@ -103,6 +103,6 @@ namespace prt {
   }
 
  public:
-  Partitions(const Tuple& t, int n, int* o):shape(t),digits(n),out(o),ind(0),num(n) {doit(0,0); total=0; for(int i=0;i<t.size();i++) total+=t[i];}
+  Partitions(const Tuple& t, int n, int* o):shape(t),digits(n),out(o),ind(0),num(n) {doit(0,0); total=0; for(int i=0;i<(int)t.size();i++) total+=t[i];}
  }; // Partitions
 }

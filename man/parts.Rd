@@ -88,6 +88,10 @@ compositions(n, m=NULL, include.zero=TRUE)
   partitions.  If this matrix is too large, consider enumerating the
   partitions individually using the functionality documented in
   \code{nextpart.Rd}.
+
+  One commonly encountered idiom is \code{blockparts(rep(n,n),n)}, which
+  is equivalent to \code{compositions(n,n)} [Sloane's \code{A001700}].
+  
 }
 \seealso{\code{\link{nextpart}}}
 \references{
@@ -103,6 +107,9 @@ compositions(n, m=NULL, include.zero=TRUE)
     \item R. K. S. Hankin 2007.  \dQuote{Set partitions in
       \R}. \emph{Journal of Statistical Software}, Volume
     23, code snippet 2
+    \item N. J. A. Sloane, 2008, The On-Line Encyclopedia of Integer
+    Sequences, \url{www.research.att.com/~njas/sequences/}, Sequence
+    A001700
   }
 }
 \examples{

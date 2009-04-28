@@ -11,7 +11,7 @@
 
 
 %% just as usual
-\author{Robin K. S. Hankin\\The University of Cambridge}
+\author{Robin K. S. Hankin\\University of Cambridge}
 \title{Urn Sampling Without Replacement: Enumerative Combinatorics In
   \proglang{R}}
 %\VignetteIndexEntry{Urn sampling without replacement}
@@ -25,11 +25,16 @@
 %% an abstract and keywords
 \Abstract{This vignette is based on~\cite{hankin2007}.
 
-This short paper introduces a code snippet in the form of
+  This short paper introduces a code snippet in the form of
   two new \proglang{R} functions that enumerate possible draws from an urn
   without replacement; these functions call  \proglang{C}
   code, written by the author.  Some simple combinatorial problems are solved
-  using the software.}
+  using the software.
+
+  For reasons of performance, this vignette uses pre-calculated
+  answers.  To calculate everything from scratch, set variable {\tt
+    calculate\_from\_scratch} in the first chunk to {\tt TRUE}.
+}
 
 \Keywords{Urn problems, drawing without replacement, enumerative
   combinatorics, Scrabble, \proglang{R}}
@@ -54,7 +59,7 @@ This short paper introduces a code snippet in the form of
   19 Silver Street\\
   Cambridge CB3 9EP\\
   United Kingdom\\
-  E-mail: \email{rksh1@cam.ac.uk}
+  E-mail: \email{hankin.robin@gmail.com}
 }
 %% It is also possible to add a telephone and fax number
 %% before the e-mail in the following format:
@@ -71,7 +76,7 @@ This short paper introduces a code snippet in the form of
 \begin{document}
 <<set_cutdownproblem,echo=FALSE,print=FALSE>>=
 <<results=hide>>=
-do.simple <- TRUE
+do_from_scratch <- FALSE
 @ 
 
 \section{Introduction}
@@ -110,7 +115,7 @@ are currently part of the \pkg{partitions} package~\citep{hankin2006},
 version 1.3-3.  These functions call \proglang{C} code, also written
 by the author, which is available as part of the package.
 
-All software is available from CRAN, {\tt http://CRAN.r-project.org/}.
+All software is available from CRAN, \url{http://CRAN.r-project.org/}.
 
 \section{Examples}
 
@@ -236,49 +241,64 @@ probability of a given draw is given by
     {\left(\begin{array}{c}100\\7\end{array}\right)}.
 \]
 
-[the remainder of this paper uses only the first 10 letters of the
-alphabet:
-
-<<simple_problem>>=
-  scrabble <- scrabble[1:10]
-@ 
-
-The user may delete the above line to determine the `real' scrabble
-problem].
-
 The appropriate \proglang{R} idiom would be to enumerate all possible
 racks using \code{blockparts()}, and apply a function that calculates
 the probability of each rack:
 
-
-<<probOfRacks,print=FALSE,echo=TRUE,cache=TRUE>>=
-racks <- blockparts(scrabble,7)
+<<probOfRacks,print=FALSE,echo=FALSE,cache=TRUE>>=
 f <- function(a){prod(choose(scrabble,a))/choose(sum(scrabble),7)}
-probs <- apply(racks,2,f)
-@ 
+if(do_from_scratch){
+  racks <- blockparts(scrabble,7)
+  probs <- apply(racks,2,f)
+  otarine_ans <- rep(names(scrabble), racks[, which.max(probs)])
+  max_probs <- max(probs)
+  mp <- min(probs)
+  a <- floor(log10(mp))
+  how_many_racks <- sum(probs==min(probs))
+} else {
+  load("answers.Rdata")
+}
+@  
+
+\begin{Schunk}
+\begin{Sinput}
+> f <- function(a) { prod(choose(scrabble, a))/choose(sum(scrabble), 7) }
+> racks <- blockparts(scrabble, 7)
+> probs <- apply(racks, 2, f)
+\end{Sinput}
+\end{Schunk}
+
 
 The draw of maximal probability is given by the maximal element of
 \code{probs}.  The corresponding rack is then:
-<<otarine,echo=TRUE,cache=TRUE>>=
-rep(names(scrabble),racks[,which.max(probs)])
+
+\begin{Schunk}
+\begin{Sinput}
+> rep(names(scrabble), racks[, which.max(probs)])
+\end{Sinput}
+\end{Schunk}
+
+<<print_otarine_letters,echo=FALSE,print=TRUE,cache=FALSE>>=
+otarine_ans
 @ 
 
 In the context of the full Scrabble problem, there is only one
 acceptable anagram of the most probable rack: ``otarine''.  Its
 probability is
 
-<<maximal_prob,echo=TRUE,print=TRUE>>=
-max(probs)
+\begin{Schunk}
+\begin{Sinput}
+> max(probs)
+\end{Sinput}
+\end{Schunk} 
+
+<<print_max_probs,echo=FALSE,print=TRUE,cache=FALSE>>=
+max_probs
 @ 
 
-<<minimal_prob,echo=FALSE,print=FALSE>>=
-mp <- min(probs)
-a <- floor(log10(mp))
-@ 
-
-or just over once per~\Sexpr{ceiling(1/max(probs))} draws.  It is
+or just over once per~\Sexpr{ceiling(1/max_probs)} draws.  It is
 interesting to note that the {\em least} probable rack is not unique:
-there are exactly~\Sexpr{sum(probs==min(probs))} racks each with
+there are exactly~\Sexpr{how_many_racks} racks each with
 minimal probability (about~$\Sexpr{round(mp/10^a,3)}\times
 10^{\Sexpr{a}}$).
 

@@ -6,7 +6,7 @@
   Given an integer \code{n}, return a matrix whose columns enumerate various
   permutations of \code{1:n}.
 
-  Function \code{allperms()} returns all permutations in lexicographic
+  Function \code{perms()} returns all permutations in lexicographic
   order; function \code{plainperms()} returns all permutations by
   repeatedly exchanging adjacent pairs.
 }

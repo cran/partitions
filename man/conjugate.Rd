@@ -18,6 +18,11 @@ durfee(x)
 \details{
   Conjugation is described in Andrews, and (eg) Hardy and Wright.
 
+  The \dfn{conjugate} of a partition may be calculated by taking its
+  Ferrers diagram and considering the partition defined by columns
+  instead of rows.  This may be visualised by flipping the Ferrers
+  diagram about the leading diagonal.
+  
   Essentially, \code{conjugate()} carries out \R idiom
   \code{rev(cumsum(table(factor(a[a>0],levels=max(a):1))))}, but faster.
 
@@ -49,6 +54,16 @@ restrictedparts(6,4)
 conjugate(restrictedparts(6,4))
 
 durfee(10:1)
+
+
+# Suppose one wanted partitions of 8 with no part larger than 3:
+
+conjugate(restrictedparts(8,3))
+
+# (restrictedparts(8,3) splits 8 into at most 3 parts; 
+# so no part of the conjugate partition is larger than 3).
+
+
 
 }
 \keyword{math}

@@ -1,5 +1,10 @@
-/* Algorithm P of Knuth, fasc2b.pdf, 7.2.1.2, p4 
-   off-by-one alert: Knuth uses 1 to n, I use 0 to n-1. */
+/* Algorithm P of Knuth, fasc2b.pdf, 7.2.1.2, p4.
+
+   Given integer n, generate all factorial(n) permutations.
+
+   Off-by-one alert: Knuth uses 1 to n; I use 0 to n-1.
+*/
+
 int nextperm(int *a, const int n){
 
   int j,k, l=n-1, m;
@@ -60,21 +65,21 @@ void plainperms(int *x, const int *nin, const int *fn){
   }
   
   for(i=1 /*sic*/ ; i < (*fn) ; i++){
-  P1:
+    /* P1: */
 	  for(int j=0 ; j<n ; j++){
 		  x[i*n + j] = x[(i-1)*n + j]; /* P2 */
 	  }
 	  
-  P3:
+	  /* P3: */
 	  j=n-1;  /* off-by-one: Knuth's 'n' = my n-1.*/
 	  s=0; 
 	  
-  P4:
+	  /* P4: */
 	  for(;;){
 		  q = c[j] + o[j]; /* P4 */
 		  if(q >= 0){
 			  if(q != (j+1)){ /* off-by-one */
-			  P5:
+			    /* P5: */
 				  i1 = (i*n)+j-c[j]+s;
 				  i2 = (i*n)+j-q   +s;
 				  m     = x[i1]; /* P5 */
@@ -83,10 +88,10 @@ void plainperms(int *x, const int *nin, const int *fn){
 				  c[j]= q;
 				  break;
 			  } 
-		  P6:
+			  /* P6: */
 			  s++;
 		  } 
-	  P7:
+		  /* P7: */
 		  o[j] = -o[j]; 
 		  j--;
 	  }

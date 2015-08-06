@@ -615,11 +615,9 @@ if(FALSE){
   return(as.partition(out))
 }
 
-
 "plainperms" <- function(n){
   fn <- factorial(n)
   kk <- integer(n*fn)
-
 
   out <- .C("plainperms",
             ans = kk,
@@ -631,6 +629,3 @@ if(FALSE){
   dim(out) <- c(n,fn)
   return(as.partition(out))
 }
-
-
-

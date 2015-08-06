@@ -2,6 +2,7 @@
 \alias{print.partition}
 \alias{print.equivalence}
 \alias{print.summary.partition}
+\alias{print}
 \title{Print methods for partition objects and equivalence objects}
 \description{
   A print method for partition objects, summary partition objects, and

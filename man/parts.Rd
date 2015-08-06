@@ -13,7 +13,7 @@
   \code{diffparts()} returns the unequal partitions; function
   \code{restrictedparts()} returns the restricted partitions; function
   \code{blockparts()} returns the partitions subject to specified
-  maxima; function \code{compositions()} returns all compositions
+  maxima; and function \code{compositions()} returns all compositions
   of the argument.
   }
 

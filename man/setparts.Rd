@@ -79,13 +79,23 @@ You can change the print method by setting, eg,  \code{option(separator="")}.
   of class \code{"partition"}.  Type \code{?print.partition} to see how
   to change the options for printing.
 }
+\note{
+  The \pkg{clue} package  by Kurt Hornik contains functionality for
+  partitions (specifically \code{cl_meet()} and \code{cl_join()}) which
+  might be useful.
+}  
 \references{
   \itemize{
     \item R. K. S. Hankin 2006.  \emph{Additive integer partitions in
       \R}.  Journal of Statistical Software, Code Snippets 16(1)
     \item R. K. S. Hankin 2007.  \dQuote{Set partitions in
       \R}. \emph{Journal of Statistical Software}, Volume
-    23, code snippet 2   
+    23, code snippet 2
+    \item  Kurt Hornik (2017).  \emph{clue: Cluster ensembles}.  R
+    package version 0.3-53. \url{https://CRAN.R-project.org/package=clue}
+    \item  Kurt Hornik (2005).  \emph{A CLUE for CLUster Ensembles}.
+    Journal of Statistical Software 14/12.
+    \url{http://www.jstatsoft.org/v14/i12/}
   }
 }
 \author{Luke G. West (\code{C++}) and Robin K. S. Hankin (\R);

@@ -4,6 +4,25 @@
 \alias{restrictedparts}
 \alias{blockparts}
 \alias{compositions}
+\alias{c_allblockparts}
+\alias{c_alldiffparts}
+\alias{c_allparts}
+\alias{c_allperms}
+\alias{c_allrestrictedparts}
+\alias{c_bintocomp}
+\alias{c_comptobin}
+\alias{c_conjugate}
+\alias{c_durfee}
+\alias{c_nextblockpart}
+\alias{c_nextdiffpart}
+\alias{c_nextpart}
+\alias{c_nextrestrictedpart}
+\alias{c_plainperms}
+\alias{c_tobin}
+\alias{c_wrap}
+\alias{c_numbdiffparts}
+\alias{c_numbparts}
+\alias{numbrestrictedparts_R}
 \title{Enumerate the partitions of an integer}
 \description{
   Given an integer, return a matrix whose columns enumerate various
@@ -77,11 +96,17 @@ compositions(n, m=NULL, include.zero=TRUE)
     necessarily in standard form, so functions \code{durfee()} and
     \code{conjugate()} may fail.
 
-    \item Function \code{compositions()} returns all
-    \eqn{2^{n-1}}{2^(n-1)} ways of partitioning an integer; thus
-    \code{4+1+1} is distinct from \code{1+4+1} or \code{1+1+4}.  This
-    function is different from all the others in the package in that it
-    is written in \R; it is not clear that C would be any faster.
+    \item With a single argument, \code{compositions(n)} returns
+    all \eqn{2^{n-1}}{2^(n-1)} ways of partitioning an integer; thus
+    \code{4+1+1} is distinct from \code{1+4+1} or \code{1+1+4}.
+
+    With two arguments, \code{compositions(n,m)} returns all
+    nonnegative solutions to \eqn{x_1+\ldots+x_m=n}{x_1+...+x_m=n}.
+
+    This function is different from all the others in the package in
+    that it is written in \R; it is not clear that C would be any
+    faster.
+    
   }
 }
 \author{Robin K. S. Hankin}
@@ -126,7 +151,14 @@ blockparts(1:4,3,include.fewer=TRUE)
 
 blockparts(c(4,3,3,2),5)  # Knuth's example, Fascicle 3a, p16
 
-compositions(3)
+compositions(4)           # not the same as parts(4)
+compositions(4,4) 
+
+# With 10 blocks, enumerate all partitions with maxima of 1:5 and minima
+# of c(0,1,1,2,1):
+
+a <- c(0,1,1,2,1)
+sweep(blockparts(1:5-a,10-sum(a)),1,a,"+")
 
 }
 \keyword{math}

@@ -5,7 +5,7 @@
 using namespace prt;
 
 
-extern "C" void wrap(int* t, int* n, int* r) {
+extern "C" void c_wrap(int* t, int* n, int* r) {
 
  Tuple num(*n);
 
@@ -28,7 +28,7 @@ int main() {
 
  int result[10000];
 
- wrap(tuple,&n,result);
+ c_wrap(tuple,&n,result);
 
  for(int i=0;i<70;i++) {
   for(int j=0;j<7;j++) {

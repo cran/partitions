@@ -37,7 +37,7 @@ int nextperm(int *a, const int n){
   return 0;
 
 }
-void allperms(int *a, const int *nin, const int *fn){
+void c_allperms(int *a, const int *nin, const int *fn){
 	const int n = *nin;
 	int i;
 
@@ -53,7 +53,7 @@ void allperms(int *a, const int *nin, const int *fn){
 	}
 }
 
-void plainperms(int *x, const int *nin, const int *fn){
+void c_plainperms(int *x, const int *nin, const int *fn){
   const int n = *nin;
   int i,j,m,q,s,i1,i2;
   int c[n], o[n];

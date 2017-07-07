@@ -53,11 +53,12 @@ S(f, n = NULL, include.fewer = FALSE)
 }
 \author{Robin K. S. Hankin; \code{S()} is due to an anonymous JSS referee}
 \note{
+
   Functions \code{P()} and \code{Q()} use \code{unsigned long long}
   integers, a type which is system-dependent.  For me, \code{P()} works
   for \eqn{n} equal to or less than 416, and \code{Q()} works for
-  \eqn{n} less than or equal to 792.  \acronym{YMMV};  none of the methods test
-  for overflow, so use with care!
+  \eqn{n} less than or equal to 792.  \acronym{YMMV}; none of the
+  methods test for overflow, so use with care!
 }
 \examples{
 P(10,give=TRUE)

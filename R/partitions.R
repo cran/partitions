@@ -69,7 +69,7 @@ print.summary.partition <- function(x, ...){
     x <- sort(x[x>0], decreasing=TRUE)
     num.of.parts <-
       as.integer(.fac(sum(x))/(prod(c(.fac(x),.fac(table(x))))))
-    out <- .C("wrap",
+    out <- .C("c_wrap",
               as.integer(x),
               as.integer(length(x)),
               ans = integer(sum(x)*num.of.parts),
@@ -115,7 +115,7 @@ print.summary.partition <- function(x, ...){
     }
     if(n>0){
       nn <- P(n)
-      out <- .C("allparts",
+      out <- .C("c_allparts",
                 as.integer(n),
                 as.integer(n*nn),
                 ans = integer(n*nn),
@@ -137,7 +137,7 @@ print.summary.partition <- function(x, ...){
     stopifnot(all(jj >= 0))
     stopifnot(any(jj >  0))
   }
-  .C("nextpart",
+  .C("c_nextpart",
      ans=as.integer(part),
      PACKAGE="partitions")$ans
 }
@@ -157,7 +157,7 @@ function(n){
   }
   nn <- Q(n)
   n.tri <- .tri(n)
-  out <- .C("alldiffparts",
+  out <- .C("c_alldiffparts",
             as.integer(n),
             as.integer(n.tri*nn),
             as.integer(n.tri),
@@ -181,7 +181,7 @@ function(n){
     stopifnot(all(jj2>0))
   }
 
-  .C("nextdiffpart",
+  .C("c_nextdiffpart",
      ans   = as.integer(part),
      n.tri = as.integer(n.tri),
      PACKAGE="partitions")$ans
@@ -213,7 +213,7 @@ function(n){
   jj.n <- R(m,n,include.zero=include.zero)
   len <- m*jj.n
 
-  out <- .C("allrestrictedparts",
+  out <- .C("c_allrestrictedparts",
            as.integer(m),
            as.integer(n),
            as.integer(len),
@@ -223,7 +223,7 @@ function(n){
            )$ans
   dim(out) <- c(m,jj.n)
   if(decreasing){
-    out <- out[rev(seq_len(m)),]
+    out <- out[rev(seq_len(m)),,drop=FALSE]
   }
   return(as.partition(out))
 }
@@ -235,7 +235,7 @@ function(n){
     stopifnot(max(part)-min(part)>=2)
     stopifnot(all(diff(part)<=0))
   }
-    rev(.C("nextrestrictedpart",
+    rev(.C("c_nextrestrictedpart",
        ans=as.integer(rev(part)),
        ignore=as.integer(length(part)),
        PACKAGE = "partitions")$ans)
@@ -268,7 +268,7 @@ function(n){
   nb <- S(fnz,n)
   lfnz <- length(fnz)
   lf <- length(f)
-  out <- .C("allblockparts",
+  out <- .C("c_allblockparts",
            ans=integer(lfnz*nb),
            as.integer(fnz),
            as.integer(nb),
@@ -311,7 +311,6 @@ function(n){
 
 }
 
-  
 "nextblockpart" <- function(part, f, n=sum(part), include.fewer=FALSE, check=TRUE){
   if(check){
     stopifnot(all(part==round(part)))
@@ -341,7 +340,7 @@ function(n){
            )
   }
 
-  .C("nextblockpart",
+  .C("c_nextblockpart",
      ans=as.integer(part),
      as.integer(f),
      as.integer(length(part)),
@@ -441,7 +440,7 @@ function(n, m=NULL, include.zero=TRUE){
 function(n, give=FALSE){
   stopifnot(length(n)==1)
   n <- n+1
-  jj <- .C("numbparts",
+  jj <- .C("c_numbparts",
            as.integer(n),
            ans = double(n),
            PACKAGE = "partitions"
@@ -474,7 +473,7 @@ function(n, give=FALSE){
 "Q" <- function(n, give=FALSE){
   stopifnot(length(n)==1)
   n <- n+1
-  jj <- .C("numbdiffparts",
+  jj <- .C("c_numbdiffparts",
            as.integer(n),
            ans = double(n),
            PACKAGE = "partitions"
@@ -506,7 +505,7 @@ function(n, give=FALSE){
   x <- as.matrix(x)
   mx <- max(x)
   nc <- ncol(x)
-  out <- .C("conjugate",
+  out <- .C("c_conjugate",
            as.integer(x),
            as.integer(nrow(x)),
            as.integer(nc),
@@ -523,7 +522,7 @@ function(n, give=FALSE){
 
 "durfee" <- function(x){
   x <- as.matrix(x)
-  .C("durfee",
+  .C("c_durfee",
      as.integer(x),
      as.integer(nrow(x)),
      as.integer(ncol(x)),
@@ -545,7 +544,7 @@ if(FALSE){
     x <- rep(1:n,y)
     nn <- U(y)
     
-    out <- .C("allperms",
+    out <- .C("c_allperms",
               as.integer(n),
               as.integer(n*nn),
               ans = integer(n*nn),
@@ -564,7 +563,7 @@ if(FALSE){
     stopifnot(len >= 0)
   }
   
-  .C("tobin",
+  .C("c_tobin",
      as.integer(n),
      ans=integer(len),
      as.integer(len),
@@ -581,7 +580,7 @@ if(FALSE){
   }
   comp <- comp[comp>0]
   s <- sum(comp)
-  .C("comptobin",
+  .C("c_comptobin",
      as.integer(comp),
      as.integer(length(comp)),
      ans=integer(s),
@@ -590,7 +589,7 @@ if(FALSE){
 
 "bintocomp" <- function(bin, use.C=TRUE, check=TRUE){
   if(use.C){
-    .C("bintocomp",
+    .C("c_bintocomp",
        as.integer(bin),
        as.integer(length(bin)),
        ans=as.integer(rep(1,1+sum(bin != 0))),
@@ -604,7 +603,7 @@ if(FALSE){
   fn <- factorial(n)
   a <- integer(n*fn)
 
-  out <- .C("allperms",
+  out <- .C("c_allperms",
             ans = a,
             as.integer(n),
             as.integer(fn),
@@ -619,7 +618,7 @@ if(FALSE){
   fn <- factorial(n)
   kk <- integer(n*fn)
 
-  out <- .C("plainperms",
+  out <- .C("c_plainperms",
             ans = kk,
             as.integer(n),
             as.integer(fn),

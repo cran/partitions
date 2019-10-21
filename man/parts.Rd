@@ -4,6 +4,8 @@
 \alias{restrictedparts}
 \alias{blockparts}
 \alias{compositions}
+\alias{multiset}
+\alias{mset}
 \alias{c_allblockparts}
 \alias{c_alldiffparts}
 \alias{c_allparts}
@@ -18,6 +20,7 @@
 \alias{c_nextpart}
 \alias{c_nextrestrictedpart}
 \alias{c_plainperms}
+\alias{c_multiset}
 \alias{c_tobin}
 \alias{c_wrap}
 \alias{c_numbdiffparts}
@@ -42,6 +45,8 @@ diffparts(n)
 restrictedparts(n, m, include.zero=TRUE, decreasing=TRUE)
 blockparts(f, n=NULL, include.fewer=FALSE)
 compositions(n, m=NULL, include.zero=TRUE)
+multiset(v,n=length(v))
+mset(v)
 }
 \arguments{
   \item{n}{Integer to be partitioned.  In function \code{blockparts()},
@@ -65,7 +70,9 @@ compositions(n, m=NULL, include.zero=TRUE)
     has the effect of making \code{conjugate()} return garbage}
   \item{f}{In function \code{blockparts()}, a vector of strictly
     positive integers that gives the maximal number of blocks; see
-    details} 
+    details}
+  \item{v}{In function \code{multiset()}, an integer vector representing
+    a multiset.  Argument \code{n} is the size of the sample to be taken}
 }
 \details{
   \itemize{
@@ -101,12 +108,14 @@ compositions(n, m=NULL, include.zero=TRUE)
     \code{4+1+1} is distinct from \code{1+4+1} or \code{1+1+4}.
 
     With two arguments, \code{compositions(n,m)} returns all
-    nonnegative solutions to \eqn{x_1+\ldots+x_m=n}{x_1+...+x_m=n}.
+    nonnegative solutions to \eqn{x_1+\cdots+x_m=n}{x_1+...+x_m=n}.
 
     This function is different from all the others in the package in
     that it is written in \R; it is not clear that C would be any
     faster.
-    
+
+    \item Function \code{multiset()} returns all ways of ordering a
+    multiset (\code{mset()} is a low-level helper function).
   }
 }
 \author{Robin K. S. Hankin}
@@ -134,13 +143,16 @@ compositions(n, m=NULL, include.zero=TRUE)
       \R}. \emph{Journal of Statistical Software}, Volume
     23, code snippet 2
     \item N. J. A. Sloane, 2008, The On-Line Encyclopedia of Integer
-    Sequences, \url{www.research.att.com/~njas/sequences/}, Sequence
-    A001700
+    Sequences.  Sequence A001700
+    \item D. Knuth, 2004.  The art of computer programming, pre-fascicle
+  2B \dQuote{Generating all permutations}
   }
 }
 \examples{
 parts(5)
 diffparts(10)
+matplot(t(diffparts(27)),type='l',lty=1)
+
 restrictedparts(9,4)
 restrictedparts(9,4,FALSE)
 restrictedparts(9,4,decreasing=TRUE)
@@ -149,7 +161,7 @@ blockparts(1:4)
 blockparts(1:4,3)
 blockparts(1:4,3,include.fewer=TRUE)
 
-blockparts(c(4,3,3,2),5)  # Knuth's example, Fascicle 3a, p16
+blockparts(c(4,3,3,2),5)  # Knuth's example, pre-fascicle 3a, p16
 
 compositions(4)           # not the same as parts(4)
 compositions(4,4) 
@@ -160,5 +172,9 @@ compositions(4,4)
 a <- c(0,1,1,2,1)
 sweep(blockparts(1:5-a,10-sum(a)),1,a,"+")
 
+#Knuth's example:
+multiset(c(1,2,2,3))
+
+multiset(rep(4+1:3,1:3),3)
 }
 \keyword{math}

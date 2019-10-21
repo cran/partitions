@@ -80,13 +80,14 @@ print.summary.partition <- function(x, ...){
   return(as.partition(out))
 }
 
-"listParts" <- function(x) {
-  f <- function(pp){
-    out <- split(seq_along(pp),pp)
-    class(out) <- c(class(out),"equivalence")
-    out
-  }
-  apply(setparts(x), 2, f)
+"listParts" <- function(x,do.set=FALSE) {
+    jj <- setparts(x)
+    if(do.set){
+        out <- do.call(sets::set,apply(jj,2,vec_to_set))
+    } else {
+        out <- apply(jj, 2, vec_to_eq)
+    }
+    return(out)
 }
 
 "print.equivalence" <- function(x,sep=getOption("separator"), ...){
@@ -530,29 +531,19 @@ function(n, give=FALSE){
      PACKAGE="partitions")$ans
 }
 
-if(FALSE){
-  "U" <- function(y,naive=FALSE){
-    if(naive){
-      return(as.integer(.fac(sum(y))/prod(.fac(y))))
-    } else {
-      stop("not implemented")
-    }
-  }
-  
-  "perms" <- function(y){
-    n <- length(y)
-    x <- rep(1:n,y)
-    nn <- U(y)
-    
-    out <- .C("c_allperms",
-              as.integer(n),
-              as.integer(n*nn),
-              ans = integer(n*nn),
-              PACKAGE="partitions"
-              )$ans
-    dim(out) <- c(n,nn)
-    return(out)
-  }
+"perms" <- function(n){
+  stopifnot(length(n) ==1)
+  stopifnot(n == round(n))
+  nc <- factorial(n)  # nc = number of columns
+  out <- .C("c_allperms",
+            as.integer(seq_len(n)),
+            as.integer(n),
+            as.integer(nc),
+            ans=integer(n*nc),
+            PACKAGE="partitions"
+            )$ans
+  dim(out) <- c(n,nc)
+  return(as.partition(out))
 }
 
 "tobin" <- function(n,len,check=TRUE){
@@ -599,21 +590,6 @@ if(FALSE){
   }
 }
 
-"perms" <- function(n){
-  fn <- factorial(n)
-  a <- integer(n*fn)
-
-  out <- .C("c_allperms",
-            ans = a,
-            as.integer(n),
-            as.integer(fn),
-            PACKAGE="partitions"
-            )$ans
-    
-  dim(out) <- c(n,fn)
-  return(as.partition(out))
-}
-
 "plainperms" <- function(n){
   fn <- factorial(n)
   kk <- integer(n*fn)
@@ -628,3 +604,45 @@ if(FALSE){
   dim(out) <- c(n,fn)
   return(as.partition(out))
 }
+
+`mset` <-  function(v){
+  v <- sort(v)
+  stopifnot(all(v==round(v)))
+  n <- length(v)
+  nn <- round(exp(lfactorial(n)-sum(lfactorial(table(v)))))
+
+  out <- .C("c_allperms",
+            as.integer(v),
+            as.integer(n),
+            as.integer(nn),
+            ans = integer(n*nn),
+            PACKAGE="partitions"
+            )$ans
+  dim(out) <- c(n,nn)
+  return(as.partition(out))
+}
+
+`multiset` <- function(v,n=length(v)){
+  v <- sort(v)
+  if(n==length(v)){return(mset(v))} # unnecessary, function works if this line is commented out
+  if(n==1){return(as.partition(rbind(sort(unique(v)))))}
+  m <- blockparts(table(v),n)
+  m <- lapply(split(m,col(m)),function(u){rep(unique(v),u)})
+  m <- lapply(m,mset)
+  as.partition(do.call("cbind",m))
+}
+
+`vec_to_set` <- function(vec){
+    jj <- sort(unique(vec))
+    M <- outer(jj,vec,`==`)
+    out <- lapply(split(M, seq_len(nrow(M))),which)
+    names(out) <- NULL
+    return(do.call(sets::set,lapply(out,sets::as.set)))
+}
+
+`vec_to_eq` <- function(vec){
+    out <- split(seq_along(vec),vec)
+    class(out) <- c(class(out),"equivalence")
+    return(out)
+  }
+

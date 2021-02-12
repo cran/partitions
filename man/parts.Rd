@@ -27,7 +27,7 @@
 \alias{c_numbparts}
 \alias{numbrestrictedparts_R}
 \title{Enumerate the partitions of an integer}
-\description{
+\description{\loadmathjax
   Given an integer, return a matrix whose columns enumerate various
   partitions.
 
@@ -86,29 +86,29 @@ mset(v)
     \eqn{m} parts, the same Hindenburg's algorithm is used but with a
     start vector of \code{c(rep(0,m-1),n)}.
 
-    If \eqn{m>n}, the partitions are padded with zeros.
+    If \mjseqn{m>n}, the partitions are padded with zeros.
 
     \item Function \code{blockparts()} enumerates the compositions of an
     integer subject to a maximum criterion: given vector
-    \eqn{y=(y_1,\ldots,y_n)}{y=(y_1,...,y_p)} all sets of
-    \eqn{a=(a_1,\ldots,a_n)}{a=(a_1,...,a_p)} satisfying
-    \eqn{\sum_{i=1}^pa_i=n}{sum(a_i)=n} subject to \eqn{0\leq a_i\leq
+    \mjeqn{y=(y_1,\ldots,y_n)}{y=(y_1,...,y_p)} all sets of
+    \mjeqn{a=(a_1,\ldots,a_n)}{a=(a_1,...,a_p)} satisfying
+    \mjeqn{\sum_{i=1}^pa_i=n}{sum(a_i)=n} subject to \mjeqn{0\leq a_i\leq
     y_i}{0 <= a_i <= y_i} for all \eqn{i} are given in lexicographical
     order.  If argument \code{y} includes zero elements, these are
     treated consistently (ie a position with zero capacity).
 
     If \code{n} takes its default value of \code{NULL}, then the
-    restriction \eqn{\sum_{i=1}^pa_i=n}{sum(a_i)=n} is relaxed (so that
+    restriction \mjeqn{\sum_{i=1}^pa_i=n}{sum(a_i)=n} is relaxed (so that
     the numbers may sum to anything).  Note that these solutions are not
     necessarily in standard form, so functions \code{durfee()} and
     \code{conjugate()} may fail.
 
     \item With a single argument, \code{compositions(n)} returns
-    all \eqn{2^{n-1}}{2^(n-1)} ways of partitioning an integer; thus
+    all \mjeqn{2^{n-1}}{2^(n-1)} ways of partitioning an integer; thus
     \code{4+1+1} is distinct from \code{1+4+1} or \code{1+1+4}.
 
     With two arguments, \code{compositions(n,m)} returns all
-    nonnegative solutions to \eqn{x_1+\cdots+x_m=n}{x_1+...+x_m=n}.
+    nonnegative solutions to \mjeqn{x_1+\cdots+x_m=n}{x_1+...+x_m=n}.
 
     This function is different from all the others in the package in
     that it is written in \R; it is not clear that C would be any
@@ -117,6 +117,67 @@ mset(v)
     \item Function \code{multiset()} returns all ways of ordering a
     multiset (\code{mset()} is a low-level helper function).
   }
+
+
+
+\preformatted{
+>  parts(7)
+                                  
+[1,] 7 6 5 5 4 4 4 3 3 3 3 2 2 2 1
+[2,] 0 1 2 1 3 2 1 3 2 2 1 2 2 1 1
+[3,] 0 0 0 1 0 1 1 1 2 1 1 2 1 1 1
+[4,] 0 0 0 0 0 0 1 0 0 1 1 1 1 1 1
+[5,] 0 0 0 0 0 0 0 0 0 0 1 0 1 1 1
+[6,] 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1
+[7,] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1
+> P(7)
+[1] 15
+> diffparts(9)
+                    
+[1,] 9 8 7 6 6 5 5 4
+[2,] 0 1 2 3 2 4 3 3
+[3,] 0 0 0 0 1 0 1 2
+> Q(9)
+[1] 8
+> restrictedparts(9,4)
+                                        
+[1,] 9 8 7 6 5 7 6 5 4 5 4 3 6 5 4 4 3 3
+[2,] 0 1 2 3 4 1 2 3 4 2 3 3 1 2 3 2 3 2
+[3,] 0 0 0 0 0 1 1 1 1 2 2 3 1 1 1 2 2 2
+[4,] 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 2
+> R(4,9,include.zero=TRUE)
+[1] 18
+> blockparts(1:4,5)
+                                                
+[1,] 1 1 0 1 1 0 1 0 1 1 0 1 0 0 1 0 1 0 0 1 0 0
+[2,] 2 1 2 2 1 2 0 1 2 1 2 0 1 0 1 2 0 1 0 0 1 0
+[3,] 2 3 3 1 2 2 3 3 0 1 1 2 2 3 0 0 1 1 2 0 0 1
+[4,] 0 0 0 1 1 1 1 1 2 2 2 2 2 2 3 3 3 3 3 4 4 4
+> S(1:4,5)
+[1] 22
+> compositions(5,3)
+                                              
+[1,] 5 4 3 2 1 0 4 3 2 1 0 3 2 1 0 2 1 0 1 0 0
+[2,] 0 1 2 3 4 5 0 1 2 3 4 0 1 2 3 0 1 2 0 1 0
+[3,] 0 0 0 0 0 0 1 1 1 1 1 2 2 2 2 3 3 3 4 4 5
+> S(rep(5,3),5)
+[1] 21
+> setparts(4)
+                                  
+[1,] 1 1 1 1 2 1 1 1 1 1 1 2 2 2 1
+[2,] 1 1 1 2 1 2 1 2 2 1 2 1 1 3 2
+[3,] 1 2 1 1 1 2 2 1 3 2 1 3 1 1 3
+[4,] 1 1 2 1 1 1 2 2 1 3 3 1 3 1 4
+>  setparts(c(1,2,2))
+                                  
+[1,] 1 1 1 1 1 1 1 1 1 1 1 1 3 3 3
+[2,] 2 2 3 1 1 1 2 2 3 2 2 3 1 1 1
+[3,] 3 2 2 3 2 2 1 1 1 3 2 2 2 1 2
+[4,] 2 3 2 2 3 2 3 2 2 1 1 1 2 2 1
+[5,] 1 1 1 2 2 3 2 3 2 2 3 2 1 2 2
+}
+
+
 }
 \author{Robin K. S. Hankin}
 \note{
@@ -127,6 +188,18 @@ mset(v)
 
   One commonly encountered idiom is \code{blockparts(rep(n,n),n)}, which
   is equivalent to \code{compositions(n,n)} [Sloane's \code{A001700}].
+
+  If you have a \emph{minimum} number of balls in each block, a
+  construction like
+
+  \preformatted{
+    x <- c(1,1,2,1)   # min
+    y <- c(2,3,4,5)   # max
+    
+    sweep(blockparts(y-x,7-sum(x)),1,x,"+")
+  }
+  can be helpful (that is, subtract off the minimum number of balls and
+add them back again at the end). 
 }
 \seealso{\code{\link{nextpart}}}
 \references{
@@ -148,6 +221,7 @@ mset(v)
   2B \dQuote{Generating all permutations}
   }
 }
+
 \examples{
 parts(5)
 diffparts(10)

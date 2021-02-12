@@ -6,7 +6,7 @@
   }
   return(out)
 }
-    
+
 "as.matrix.partition" <- function(x, ...){
   class(x) <- "matrix"
   NextMethod("as.matrix")
@@ -51,7 +51,7 @@ print.summary.partition <- function(x, ...){
   }
   print.partition(x)
 }
-  
+
 "setparts" <- function(x){
   if(length(x)==1){
     if (x < 1){
@@ -63,8 +63,10 @@ print.summary.partition <- function(x, ...){
     return(Recall(parts(x)))
   }
   if(is.matrix(x)){
-    out <- apply(x,2,setparts)
-    if(is.list(out)){out <- do.call("cbind",out)}
+    out <- do.call(
+      "cbind",
+      lapply(seq_len(ncol(x)), function(i) setparts(x[, i]))
+    )
   } else {
     x <- sort(x[x>0], decreasing=TRUE)
     num.of.parts <-
@@ -77,7 +79,7 @@ print.summary.partition <- function(x, ...){
               )$ans
     dim(out) <- c(sum(x),num.of.parts)
   }
-  return(as.partition(out))
+  as.partition(out)
 }
 
 "listParts" <- function(x,do.set=FALSE) {
@@ -253,7 +255,7 @@ function(n){
     return(as.integer(c(n-m+1,rep(1,m-1))))
   }
 }
-                                  
+
 "blockparts" <- function(f,n=NULL,include.fewer=FALSE){
   s <- sum(f)
   if(is.null(n)){
@@ -299,7 +301,7 @@ function(n){
 
   if(is.null(n)){
     return(all(part==f))
-  } 
+  }
 
   jj <- sum(cumprod(part==0)) + sum(cumprod(rev(part==f)))
   ans <- (jj==length(part)) | (jj==length(part)-1)
@@ -334,7 +336,7 @@ function(n){
 
   if(include.fewer){
     return(Recall(
-                  part = c(n-sum(part),part), 
+                  part = c(n-sum(part),part),
                   f    = c(s,f),
                   n    = n
                   )[-1]
@@ -502,8 +504,12 @@ function(n, give=FALSE){
     }
 }
 
-"conjugate" <- function(x){
+"conjugate" <- function(x, sorted = TRUE){
+  if (!length(x))
+    return(integer(0))
   x <- as.matrix(x)
+  # if (!sorted)
+  #   x <- apply(x, 2, sort, decreasing = TRUE)
   mx <- max(x)
   nc <- ncol(x)
   out <- .C("c_conjugate",
@@ -511,6 +517,7 @@ function(n, give=FALSE){
            as.integer(nrow(x)),
            as.integer(nc),
            as.integer(mx),
+           as.integer(sorted),
            ans=integer(mx*nc),
            PACKAGE = "partitions"
            )$ans
@@ -521,14 +528,17 @@ function(n, give=FALSE){
   return(drop(out))
 }
 
-"durfee" <- function(x){
+"durfee" <- function(x, sorted = TRUE){
   x <- as.matrix(x)
-  .C("c_durfee",
-     as.integer(x),
-     as.integer(nrow(x)),
-     as.integer(ncol(x)),
-     ans=integer(ncol(x)),
-     PACKAGE="partitions")$ans
+  if (sorted)
+    .C("c_durfee",
+       as.integer(x),
+       as.integer(nrow(x)),
+       as.integer(ncol(x)),
+       ans=integer(ncol(x)),
+       PACKAGE="partitions")$ans
+  else
+    apply(x, 2, eddington::E_num)
 }
 
 "perms" <- function(n){
@@ -553,7 +563,7 @@ function(n, give=FALSE){
     stopifnot(len == round(len))
     stopifnot(len >= 0)
   }
-  
+
   .C("c_tobin",
      as.integer(n),
      ans=integer(len),
@@ -600,7 +610,7 @@ function(n, give=FALSE){
             as.integer(fn),
             PACKAGE="partitions"
             )$ans
-    
+
   dim(out) <- c(n,fn)
   return(as.partition(out))
 }

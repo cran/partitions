@@ -22,13 +22,16 @@ plainperms(n)
 \note{
   Comments in the \code{C} code; algorithm lifted from
   \file{fasc2b.pdf}.
+
+
 }
 \seealso{\code{\link{parts}}}
 \references{
   \itemize{
     \item D. E. Knuth 2004.  \dQuote{The art of computer programming,
       pre-fascicle 2B.  A draft of section 7.2.1.2: Generating all
-      permutations}.  \url{http://www-cs-faculty.stanford.edu/~knuth/taocp.html}}
+      permutations}.
+    \url{https://www-cs-faculty.stanford.edu/~knuth/taocp.html}}
 }
 \examples{
 summary(perms(5))

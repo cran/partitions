@@ -99,7 +99,15 @@ representation.
   partitions (specifically \code{cl_meet()} and \code{cl_join()}) which
   might be useful.  Option \code{do.set} invokes functionality from the
   \pkg{sets} package by Meyer et al.
-}  
+
+  Note carefully that \code{setparts(c(2,1,1))} does \emph{not}
+  enumerate the ways of placing four numbered balls in three boxes of
+  capacities 2,1,1.  This is because there are two boxes of capacity 1,
+  and swapping the balls between these boxes gives the same set
+  partition (because sets are unordered).  To do this, use
+  \code{multinomial(c(a=2,b=1,c=1))}.  See the \code{setparts} vignette
+  for more details.
+}
 \references{
   \itemize{
     \item R. K. S. Hankin 2006.  \emph{Additive integer partitions in
@@ -111,7 +119,7 @@ representation.
     package version 0.3-53. \url{https://CRAN.R-project.org/package=clue}
     \item  Kurt Hornik (2005).  \emph{A CLUE for CLUster Ensembles}.
     Journal of Statistical Software 14/12.
-    \url{https://www.jstatsoft.org/v14/i12/}
+    \doi{10.18637/jss.v014.i12}
   }
 }
 \author{Luke G. West (\code{C++}) and Robin K. S. Hankin (\R);

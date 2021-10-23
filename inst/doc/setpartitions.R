@@ -169,3 +169,24 @@ dimnames(sp) <- list(
 support[support > -2]
 
 
+###################################################
+### code chunk number 20: setpartitions.Rnw:727-728
+###################################################
+setparts(c(2,1,1))
+
+
+###################################################
+### code chunk number 21: setpartitions.Rnw:742-743
+###################################################
+multinomial(c(worker=2,secretary=1,chair=1))
+
+
+###################################################
+### code chunk number 22: setpartitions.Rnw:753-757
+###################################################
+v <- c(worker=2,secretary=1,chair=1)
+a <- apply(setparts(v),2,order)
+rownames(a) <- rep(names(v),v)
+as.partition(a)
+
+

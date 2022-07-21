@@ -7,7 +7,7 @@
 
 
 ###################################################
-### code chunk number 2: setpartitions.Rnw:82-83
+### code chunk number 2: setpartitions.Rnw:81-82
 ###################################################
 require(partitions)
 
@@ -26,7 +26,7 @@ split(seq_along(a),a)
 
 
 ###################################################
-### code chunk number 5: setpartitions.Rnw:362-365
+### code chunk number 5: setpartitions.Rnw:364-367
 ###################################################
 options(width=63)
 m <- 9
@@ -140,7 +140,7 @@ sp <- setparts(7)
 
 
 ###################################################
-### code chunk number 16: setpartitions.Rnw:673-674
+### code chunk number 16: setpartitions.Rnw:675-676
 ###################################################
 sp[,which.max(support)]
 
@@ -158,7 +158,7 @@ dimnames(sp) <- list(
 
 
 ###################################################
-### code chunk number 18: setpartitions.Rnw:695-696
+### code chunk number 18: setpartitions.Rnw:697-698
 ###################################################
  sp[, support > -2]
 
@@ -170,19 +170,19 @@ support[support > -2]
 
 
 ###################################################
-### code chunk number 20: setpartitions.Rnw:727-728
+### code chunk number 20: setpartitions.Rnw:729-730
 ###################################################
 setparts(c(2,1,1))
 
 
 ###################################################
-### code chunk number 21: setpartitions.Rnw:742-743
+### code chunk number 21: setpartitions.Rnw:744-745
 ###################################################
 multinomial(c(worker=2,secretary=1,chair=1))
 
 
 ###################################################
-### code chunk number 22: setpartitions.Rnw:753-757
+### code chunk number 22: setpartitions.Rnw:755-759
 ###################################################
 v <- c(worker=2,secretary=1,chair=1)
 a <- apply(setparts(v),2,order)

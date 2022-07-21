@@ -8,7 +8,7 @@
 }
 
 "as.matrix.partition" <- function(x, ...){
-  class(x) <- "matrix"
+  x <- unclass(x)
   NextMethod("as.matrix")
 }
 
@@ -101,7 +101,7 @@ print.summary.partition <- function(x, ...){
 }
 
 "print.partition" <- function(x, mat=getOption("matrixlike"), h=getOption("horiz"), ...){
-  class(x) <- "matrix"
+  x <- as.matrix(unclass(x))
   if(!isTRUE(mat)){
     colnames(x) <- rep(" ", ncol(x))
   }
@@ -670,3 +670,20 @@ function(n, give=FALSE){
 }
 
 `allbinom` <- function(n,k){as.partition(multinomial(c(k,n-k))[seq_len(k),,drop=FALSE])}
+
+`genrif` <- function(v){
+
+  f <- function(x){
+    out <- x
+    n <- 0
+    for(i in seq_along(v)){
+      out[x==i] <- n + seq_len(v[i])
+      n <- n + v[i]
+    }
+    return(out)
+  }
+  as.partition(apply(multiset(rep(seq_along(v),times=v)),2,f))
+}
+
+`riffle` <- function(p,q=p){genrif(c(p,q))}
+

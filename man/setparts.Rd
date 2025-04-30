@@ -1,14 +1,18 @@
 \name{setparts}
 \alias{setparts}
+\alias{restrictedsetparts}
+\alias{restrictedsetparts2}
 \alias{listParts}
 \alias{vec_to_set}
 \alias{vec_to_eq}
 \title{Set partitions}
-\description{\loadmathjax
+\description{
   Enumeration of set partitions
 }
 \usage{
 setparts(x)
+restrictedsetparts(vec)
+restrictedsetparts2(vec)
 listParts(x,do.set=FALSE)
 vec_to_set(vec)
 vec_to_eq(vec)
@@ -20,32 +24,31 @@ vec_to_eq(vec)
     elements of \code{x}.  If a matrix, return all equivalence classes
     with sizes of the columns of \code{x}}
   \item{do.set}{Boolean, with \code{TRUE} meaning to return  the set
-    partitions in terms of sets (as per \pkg{sets} package) and default
-    \code{FALSE} meaning to present the result in terms of equivalence
-    classes}
-  \item{vec}{An integer vector representing a set partition}
+    partitions in terms of sets (as per the \CRANpkg{sets} package) and
+    default \code{FALSE} meaning to present the result in terms of
+    equivalence classes}
+  \item{vec}{An integer vector representing a set partition.  In
+    \code{restrictedsetparts()}, if \code{vec} is not sorted, it is
+    sorted into non-increasing order and a warning is given}
 }
 \details{
   A \dfn{partition} of a set
-  \mjeqn{S=\left\lbrace 1,\ldots,n\right\rbrace}{S={1,...,n}} is a family of
-  sets \mjeqn{T_1,\ldots,T_k}{T1,...,Tk} satisfying
+  \eqn{S=\left\lbrace 1,\ldots,n\right\rbrace}{S={1,...,n}} is a family of
+  sets \eqn{T_1,\ldots,T_k}{T1,...,Tk} satisfying
   \itemize{
-    \item \mjeqn{i\neq j\longrightarrow T_i\cap
+    \item \eqn{i\neq j\longrightarrow T_i\cap
       T_j=\emptyset}{union(Ti,Tj) empty if i != j}
-    \item \mjeqn{\cup_{i=1}^kT_k=S}{union(T1,T2,...,Tk)=S}
-    \item \mjeqn{T_i\neq\emptyset}{Ti not empty} for \mjeqn{i=1,\ldots,
+    \item \eqn{\cup_{i=1}^kT_k=S}{union(T1,T2,...,Tk)=S}
+    \item \eqn{T_i\neq\emptyset}{Ti not empty} for \eqn{i=1,\ldots,
       k}{1,...,k} 
   }
   
-  The induced \dfn{equivalence relation} has \mjeqn{i\sim j}{i~j} if and
+  The induced \dfn{equivalence relation} has \eqn{i\sim j}{i~j} if and
   only if \eqn{i} and \eqn{j} belong to the same partition.  Equivalence
-  classes of \mjeqn{S=\left\lbrace 1,\ldots,n\right\rbrace}{S={1,...,n}}
-  may be listed using \code{listParts()}.  Thus
+  classes of \eqn{S=\left\lbrace 1,\ldots,n\right\rbrace}{S={1,...,n}}
+  may be listed using \code{listParts()}. There are exactly fifteen ways
+  to partition a set of four elements:
 
-
-  
-  There are exactly fifteen ways to partition a set of four
-  elements:
   \tabular{l}{
     \eqn{(1234)}\cr
     \eqn{(123)(4), (124)(3), (134)(2), (234)(1)}\cr
@@ -82,15 +85,45 @@ vec_to_eq(vec)
   \code{x} is 1); class 2 contains elements 2 and 4 (because the second
   and fourth element of \code{x} is 2); and class 3 contains element 3
   (because the third element of \code{x} is 3)}.  Formally, class
-\code{i} has elements \code{which(x==u[i])}.
+  \code{i} has elements \code{which(x==u[i])}.
 
 You can change the print method by setting, eg,
-\code{option(separator="")}.
+\code{options(separator="")}.
 
 Functions \code{vec_to_set()} and \code{vec_to_eq()} are low-level
 helper functions.  These take an integer vector, typically a column of a
 matrix produced by \code{setparts()} and return their set
 representation.
+
+Function \code{restrictedsetparts()} provides a matrix-based alternative
+to \code{listParts()}.  Note that the vector must be in
+non-increasing order:
+
+\preformatted{
+ restrictedsetparts(c(a=2,b=2,c=1))
+                               
+a 1 1 1 1 1 1 1 1 1 1 1 1 2 2 2
+a 5 5 5 2 2 2 3 3 3 4 4 4 5 3 4
+b 2 2 3 4 3 3 2 2 4 2 2 3 3 4 3
+b 4 3 4 5 5 4 5 4 5 5 3 5 4 5 5
+c 3 4 2 3 4 5 4 5 2 3 5 2 1 1 1
+}
+
+Above, we set partitions of \eqn{\left\lbrace
+1,2,3,4,5\right\rbrace}{[5]} into equivalence classes of sizes 2,2,1.
+The first column, for example, corresponds to
+\eqn{\left\lbrace1,5\right\rbrace\left\lbrace2,4\right\rbrace\left\lbrace3\right\rbrace}{omitted}.
+Note the absence of
+\eqn{\left\lbrace5,1\right\rbrace\left\lbrace2,4\right\rbrace\left\lbrace3\right\rbrace}{omitted}.
+and
+\eqn{\left\lbrace2,4\right\rbrace\left\lbrace1,5\right\rbrace\left\lbrace3\right\rbrace}{omitted}
+which would correspond to the same (set) partition; compare
+\code{multinomial()}.  Observe that the individual subsets are not
+necessarily sorted.
+
+Function \code{restrictedsetparts2()} uses an alternative implementation
+which might be faster under some circumstances.
+
 }
 \value{
   Returns a matrix each of whose columns show a set partition; an object
@@ -115,17 +148,18 @@ representation.
   \itemize{
     \item R. K. S. Hankin 2006.  \emph{Additive integer partitions in
       \R}.  Journal of Statistical Software, Code Snippets 16(1)
-    \item R. K. S. Hankin 2007.  \dQuote{Set partitions in
-      \R}. \emph{Journal of Statistical Software}, Volume
+    \item R. K. S. Hankin 2007.  \emph{Set partitions in
+      \R}.   Journal of Statistical Software, Volume
     23, code snippet 2
-    \item  Kurt Hornik (2017).  \emph{clue: Cluster ensembles}.  R
-    package version 0.3-53. \url{https://CRAN.R-project.org/package=clue}
+    \item  Kurt Hornik (2017).  \emph{\CRANpkg{clue}: Cluster
+      ensembles}. \R package version 0.3-53.
+    \url{https://CRAN.R-project.org/package=clue}
     \item  Kurt Hornik (2005).  \emph{A CLUE for Cluster Ensembles}.
     Journal of Statistical Software 14/12.
     \doi{10.18637/jss.v014.i12}
   }
 }
-\author{Luke G. West (\code{C++}) and Robin K. S. Hankin (\R);
+\author{Luke G. West (\proglang{C++}) and Robin K. S. Hankin (\R);
 \code{listParts()} provided by Diana Tichy
 }
 \seealso{\code{\link{parts}}, \code{\link{print.partition}}}
@@ -145,7 +179,7 @@ setparts(jj)               # partitions of a set of 5 elements into
 
 listParts(jj)              # The induced equivalence classes
 
-
+restrictedsetparts(c(a=2,b=2,c=1))  # alternative to listParts()
 
 
 jj <- restrictedparts(6,3,TRUE)

@@ -28,10 +28,8 @@
 \alias{c_numbdiffparts}
 \alias{c_numbparts}
 \alias{numbrestrictedparts_R}
-\title{Enumerate the partitions of an integer
-  \Sexpr[stage=build,results=hide]{require(partitions)}
-}
-\description{\loadmathjax
+\title{Enumerate the partitions of an integer}
+\description{
   Given an integer, return a matrix whose columns enumerate various
   partitions.
 
@@ -77,9 +75,11 @@ allbinom(n,k)
   \item{f}{In function \code{blockparts()}, a vector of strictly
     positive integers that gives the maximal number of blocks; see
     details}
-  \item{v}{In function \code{multiset()}, an integer vector representing
-    a multiset.  Argument \code{n} is the size of the sample to be
-    taken}
+  \item{v}{An integer vector.  In function \code{multiset()}, argument
+    \code{v} represents a multiset (argument \code{n} is the size of the
+    sample to be taken).  In function \code{multinomial()}, \code{v} is
+    specifies the sizes of the sets; use a named vector for easier
+    interpretation}
   \item{k}{In function \code{allbinom()}, the size of the set to be
       chosen; arguments match those of \code{choose()}}
 }
@@ -100,47 +100,48 @@ allbinom(n,k)
     partitions but in a different order: \code{parts(6)} and
     \code{restrictedparts(6,6)} for example.
 
-    If \mjseqn{m>n}, the partitions are padded with zeros.
+    If \eqn{m>n}, the partitions are padded with zeros.
 
     \item Function \code{blockparts()} enumerates the compositions of an
     integer subject to a maximum criterion: given vector
-    \mjeqn{y=(y_1,\ldots,y_n)}{y=(y_1,...,y_p)} all sets of
-    \mjeqn{a=(a_1,\ldots,a_n)}{a=(a_1,...,a_p)} satisfying
-    \mjeqn{\sum_{i=1}^pa_i=n}{sum(a_i)=n} subject to \mjeqn{0\leq a_i\leq
+    \eqn{y=(y_1,\ldots,y_n)}{y=(y_1,...,y_p)} all sets of
+    \eqn{a=(a_1,\ldots,a_n)}{a=(a_1,...,a_p)} satisfying
+    \eqn{\sum_{i=1}^pa_i=n}{sum(a_i)=n} subject to \eqn{0\leq a_i\leq
     y_i}{0 <= a_i <= y_i} for all \eqn{i} are given in lexicographical
     order.  If argument \code{y} includes zero elements, these are
     treated consistently (ie a position with zero capacity).
 
     If \code{n} takes its default value of \code{NULL}, then the
-    restriction \mjeqn{\sum_{i=1}^pa_i=n}{sum(a_i)=n} is relaxed (so that
+    restriction \eqn{\sum_{i=1}^pa_i=n}{sum(a_i)=n} is relaxed (so that
     the numbers may sum to anything).  Note that these solutions are not
     necessarily in standard form, so functions \code{durfee()} and
     \code{conjugate()} may fail.
 
-    \item With a single argument, \code{compositions(n)} returns
-    all \mjeqn{2^{n-1}}{2^(n-1)} ways of partitioning an integer; thus
-    \code{4+1+1} is distinct from \code{1+4+1} or \code{1+1+4}.
-
-    With two arguments, \code{compositions(n,m)} returns all
-    nonnegative solutions to \mjeqn{x_1+\cdots+x_m=n}{x_1+...+x_m=n}.
-
-    This function is different from all the others in the package in
-    that it is written in \R; it is not clear that C would be any
+    \item With a single argument, \code{compositions(n)} returns all
+    \eqn{2^{n-1}}{2^(n-1)} ways of partitioning an integer; thus
+    \code{4+1+1} is distinct from \code{1+4+1} or \code{1+1+4}.  With
+    two arguments, \code{compositions(n,m)} returns all nonnegative
+    solutions to \eqn{x_1+\cdots+x_m=n}{x_1+...+x_m=n}.  This function
+    is different from all the others in the package in that it is
+    written in \R; it is not clear that \proglang{C} would be any
     faster.
 
-    \item Function \code{multiset()} returns all ways of ordering a
-    multiset (\code{mset()} is a low-level helper function).
+    \item Function \code{multiset(v)} returns all ways of ordering
+    multiset \code{v}.  Optional argument \code{n} specifies the size of
+    the subset to take (\code{mset()} is a low-level helper function).
+    File \code{README.Rmd} shows how to use \code{multiset()} to
+    reproduce \code{freealg::pepper()}, which gives related
+    functionality.
 
     \item Function \code{multinomial(v)} returns all ways of
     partitioning a set into \emph{distinguishable} boxes of capacities
-    \code{v[1], v[2],...,v[n]}.  The number of columns is given by the
-    multinomial coefficient \mjeqn{{\sum v_i\choose
-	v_1\,v_2\,\ldots\,v_n}}{omitted}.
+    \code{v[1], v[2],...,v[n]} (a named vector gives more understandable
+    output).  The number of columns is given by the multinomial
+    coefficient \eqn{{\sum v_i\choose
+    v_1\,v_2\,\ldots\,v_n}}{omitted}.
 
     \item Function \code{allbinom(n,k)} is provided for convenience; it
     enumerates the ways of choosing \eqn{k} objects from \code{n}.
-
-
 
   }
 
@@ -158,12 +159,16 @@ allbinom(n,k)
   If you have a \emph{minimum} number of balls in each block, a
   construction like
 
-  \printExample{
-    x <- c(1,1,2,1)   # min
-    y <- c(2,3,4,5)   # max
-    
-    sweep(blockparts(y-x,7-sum(x)),1,x,"+")
-  }
+\preformatted{
+x <- c(1,1,2,1)   # min
+y <- c(2,2,3,4)   # max
+sweep(blockparts(y-x,sum(y)-sum(x),TRUE),1,x,"+")
+#>
+#> [1,] 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2
+#> [2,] 1 1 2 2 1 1 2 2 1 1 2 2 1 1 2 2 1 1 2 2 1 1 2 2 1 1 2 2 1 1 2 2
+#> [3,] 2 2 2 2 3 3 3 3 2 2 2 2 3 3 3 3 2 2 2 2 3 3 3 3 2 2 2 2 3 3 3 3
+#> [4,] 1 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2 3 3 3 3 3 3 3 3 4 4 4 4 4 4 4 4
+}
 
   can be helpful (that is, subtract off the minimum number of balls and
   add them back again at the end).
@@ -173,6 +178,68 @@ allbinom(n,k)
     multiset(c(1,2,2,3))      # also Knuth
   }
 
+
+
+\preformatted{
+library("partitions")
+parts(7)
+#>                                   
+#> [1,] 7 6 5 5 4 4 4 3 3 3 3 2 2 2 1
+#> [2,] 0 1 2 1 3 2 1 3 2 2 1 2 2 1 1
+#> [3,] 0 0 0 1 0 1 1 1 2 1 1 2 1 1 1
+#> [4,] 0 0 0 0 0 0 1 0 0 1 1 1 1 1 1
+#> [5,] 0 0 0 0 0 0 0 0 0 0 1 0 1 1 1
+#> [6,] 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1
+#> [7,] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1
+
+P(7)
+#> [1] 15
+
+diffparts(9)
+#>                     
+#> [1,] 9 8 7 6 6 5 5 4
+#> [2,] 0 1 2 3 2 4 3 3
+#> [3,] 0 0 0 0 1 0 1 2
+
+Q(9)
+#> [1] 8
+
+restrictedparts(9,4)
+#>                                         
+#> [1,] 9 8 7 6 5 7 6 5 4 5 4 3 6 5 4 4 3 3
+#> [2,] 0 1 2 3 4 1 2 3 4 2 3 3 1 2 3 2 3 2
+#> [3,] 0 0 0 0 0 1 1 1 1 2 2 3 1 1 1 2 2 2
+#> [4,] 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 2
+
+R(4,9,include.zero=TRUE)
+#> [1] 18
+
+blockparts(1:4,5)
+#>                                                 
+#> [1,] 1 1 0 1 1 0 1 0 1 1 0 1 0 0 1 0 1 0 0 1 0 0
+#> [2,] 2 1 2 2 1 2 0 1 2 1 2 0 1 0 1 2 0 1 0 0 1 0
+#> [3,] 2 3 3 1 2 2 3 3 0 1 1 2 2 3 0 0 1 1 2 0 0 1
+#> [4,] 0 0 0 1 1 1 1 1 2 2 2 2 2 2 3 3 3 3 3 4 4 4
+
+S(1:4,5)
+#> [1] 22
+
+compositions(5,3)
+#>                                               
+#> [1,] 5 4 3 2 1 0 4 3 2 1 0 3 2 1 0 2 1 0 1 0 0
+#> [2,] 0 1 2 3 4 5 0 1 2 3 4 0 1 2 3 0 1 2 0 1 0
+#> [3,] 0 0 0 0 0 0 1 1 1 1 1 2 2 2 2 3 3 3 4 4 5
+
+S(rep(5,3),5)
+#> [1] 21
+
+setparts(4)
+#>                                   
+#> [1,] 1 1 1 1 2 1 1 1 1 1 1 2 2 2 1
+#> [2,] 1 1 1 2 1 2 1 2 2 1 2 1 1 3 2
+#> [3,] 1 2 1 1 1 2 2 1 3 2 1 3 1 1 3
+#> [4,] 1 1 2 1 1 1 2 2 1 3 3 1 3 1 4
+}
 
 
 }
@@ -197,7 +264,7 @@ allbinom(n,k)
   }
 }
 
-\runExamples{
+\examples{
     parts(7)
     P(7)
     diffparts(9)
@@ -210,6 +277,9 @@ allbinom(n,k)
     S(rep(5,3),5)
     setparts(4)
     setparts(c(1,2,2))
-    multinomial(c(a=1,b=2,c=1))
+    restrictedsetparts(c(a=2,b=1,c=1))
+    multinomial(c(a=2,b=1,c=1))
+    multiset(c(9,5,5,5,6))
+    multiset(c(9,5,5,5,6),3)
   }
 \keyword{math}

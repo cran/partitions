@@ -94,7 +94,7 @@ print.summary.partition <- function(x, ...){
 
 "print.equivalence" <- function(x,sep=getOption("separator"), ...){
   if(is.null(sep)){sep <- ","}
-  f <- function(x){paste(c("(",paste(x,collapse=sep),")"),collapse="")}
+  f <- function(x){paste(c("{",paste(x,collapse=sep),"}"),collapse="")}
   out <- paste(unlist(lapply(x,f)),collapse="")
   x <-  unclass(x)
   return(invisible(print(noquote(out))))
@@ -102,13 +102,25 @@ print.summary.partition <- function(x, ...){
 
 "print.partition" <- function(x, mat=getOption("matrixlike"), h=getOption("horiz"), ...){
   x <- as.matrix(unclass(x))
-  if(!isTRUE(mat)){
-    colnames(x) <- rep(" ", ncol(x))
-  }
-  if(isTRUE(h)){
-    x <- t(x)
-  }
+  if(isTRUE(h)){ x <- t(x) }
+  if(!isTRUE(mat)){ colnames(x) <- rep(" ", ncol(x)) }
   return(invisible(print(noquote(x))))
+}
+
+`restrictedsetparts` <- function(vec){
+    if(any(diff(vec)>0)){
+        warning("argument vec not ordered: it is being sorted into non-increasing order")
+        vec <- sort(vec,decreasing=TRUE)
+    }
+    out <- apply(setparts(vec),2,order)
+    rownames(out) <- rep(names(vec),vec)
+    return(as.partition(out))
+}
+
+`restrictedsetparts2` <- function(vec){
+    out <- apply(setparts(vec),2,function(v){c(split(seq_along(v),v),recursive=TRUE)})
+    rownames(out) <- rep(names(vec),vec)
+    return(as.partition(out))
 }
 
 "parts" <-
@@ -664,7 +676,7 @@ function(n, give=FALSE){
 
 `multinomial` <- function(v){
     jj <- rep(seq_along(v),v)
-    out <- as.partition(apply(multiset(jj),2,order))
+    out <- as.partition(as.matrix(apply(multiset(jj),2,order)))
     rownames(out) <- rep(names(v),v)
     return(out)
 }
@@ -687,3 +699,7 @@ function(n, give=FALSE){
 
 `riffle` <- function(p,q=p){genrif(c(p,q))}
 
+`condense` <- function(x, minval=1, col){
+  if(missing(col)){col <- ifelse(any(x>9),",","")}
+  noquote(apply(x,2,function(x){paste("(",paste(x[x>=minval],collapse=col),")",sep="")}))
+}

@@ -26,7 +26,42 @@
     interpreted as a comma; see examples section}
   \item{\dots}{Further arguments provided for compatibility}
 }
+\details{
+
+  The print method is sensitive to the value of option \code{matrixlike}
+  which by default sets column names to a space for more compact
+  printing.  Set to \code{TRUE} to print a partition like a matrix.
+  Option \code{horiz} specifies whether or not to print a partition
+  horizontally.
+}
 \author{Robin K. S. Hankin}
+\note{
+
+  The print method for objects of class \code{equivalence} gives things
+  like
+
+\preformatted{
+listParts(3:1)
+[[1]]
+[1] {1,2,6}{4,5}{3}
+
+[[2]]
+[1] {1,2,6}{3,4}{5}
+
+...
+
+[[59]]
+[1] {4,5,6}{1,2}{3}
+
+[[60]]
+[1] {4,5,6}{2,3}{1} 
+}
+  
+
+The curly brackets are to remind you that function \code{listParts()}
+gives \emph{set} partitions, not cycle representation of a permutation
+as per the \CRANpkg{permutations} package.
+}
 \examples{
 print(parts(5))
 

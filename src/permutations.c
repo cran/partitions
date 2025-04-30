@@ -70,24 +70,24 @@ void c_allperms(const int *starta, const int *lenn, const int *ncol, int *a){
 
 void c_plainperms(int *x, const int *nin, const int *fn){
   const int n = *nin;
-  int i,j,m,q,s,i1,i2;
+  int j,m,q,i1,i2;
   int c[n], o[n];
 
-  for(int j=0 ; j<n ; j++){
-	  c[j]=0; /* P1 */
-	  o[j]=1;
-	  x[j]=j+1;
+  for(int jj=0 ; jj<n ; jj++){
+	  c[jj]=0; /* P1 */
+	  o[jj]=1;
+	  x[jj]=jj+1;
   }
   
-  for(i=1 /*sic*/ ; i < (*fn) ; i++){
+  for(int i=1 /*sic*/ ; i < (*fn) ; i++){
     /* P1: */
-	  for(int j=0 ; j<n ; j++){
-		  x[i*n + j] = x[(i-1)*n + j]; /* P2 */
+	  for(int jj=0 ; jj<n ; jj++){  // 'jj' not 'j' to avoid shadowing
+		  x[i*n + jj] = x[(i-1)*n + jj]; /* P2 */
 	  }
 	  
 	  /* P3: */
 	  j=n-1;  /* off-by-one: Knuth's 'n' = my n-1.*/
-	  s=0; 
+	  int s=0; 
 	  
 	  /* P4: */
 	  for(;;){

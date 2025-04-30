@@ -1,31 +1,31 @@
-### R code from vignette source 'partitionspaper.Rnw'
+### R code from vignette source 'partitions.Rnw'
 
 ###################################################
-### code chunk number 1: partitionspaper.Rnw:123-123
+### code chunk number 1: partitions.Rnw:122-122
 ###################################################
 
 
 
 ###################################################
-### code chunk number 2: partitionspaper.Rnw:124-125
+### code chunk number 2: partitions.Rnw:123-124
 ###################################################
 require(partitions)
 
 
 ###################################################
-### code chunk number 3: partitionspaper.Rnw:133-134
+### code chunk number 3: partitions.Rnw:132-133
 ###################################################
 P(100)
 
 
 ###################################################
-### code chunk number 4: partitionspaper.Rnw:138-139
+### code chunk number 4: partitions.Rnw:137-138
 ###################################################
 diffparts(10)
 
 
 ###################################################
-### code chunk number 5: partitionspaper.Rnw:171-177
+### code chunk number 5: partitions.Rnw:170-176
 ###################################################
 f <- function(x){prod(factorial(x),factorial(tabulate(x)))}
 prob <- function(a,n){

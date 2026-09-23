@@ -78,5 +78,3 @@ otarine_ans
 ### code chunk number 11: print_max_probs
 ###################################################
 max_probs
-
-

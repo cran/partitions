@@ -78,8 +78,8 @@ a <-
 structure(
           c(2, 2, 4, 4, 3, 1, 2, 1, 1, 2, 2, 1, 4, 2, 1, 2, 1, 
             4, 2, 4, 2, 1, 4, 4, 1, 2, 1, 4, 2, 1, 1, 2, 1, 1, 2),
-          .Dim = c(5L, 7L),
-          .Dimnames = list(
+          dim = c(5L, 7L),
+          dimnames = list(
             evidence=paste("E",1:5,sep=""),
             crime=paste("C",1:7,sep="")
             )
@@ -188,5 +188,3 @@ v <- c(worker=2,secretary=1,chair=1)
 a <- apply(setparts(v),2,order)
 rownames(a) <- rep(names(v),v)
 as.partition(a)
-
-

@@ -33,5 +33,3 @@ prob <- function(a,n){
   N <- factorial(a)*factorial(n)*sum(1/apply(jj,2,f))
   return(N/a^n)
 }
-
-
